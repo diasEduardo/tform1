@@ -20,7 +20,6 @@ public class Production {
 		this.next = next;
 	}
 
-	/* Current NT Simbol */
 	public String getCurrent() {
 		return current;
 	}
@@ -29,7 +28,6 @@ public class Production {
 		this.current = current;
 	}
 	
-	/* Generated T Simbol */
 	public char getGenerated() {
 		return generated;
 	}
@@ -37,8 +35,7 @@ public class Production {
 	public void setGenerated(char generated) {
 		this.generated = generated;
 	}
-	
-	/* Next NT Simbol */
+
 	public String getNext() {
 		return next;
 	}

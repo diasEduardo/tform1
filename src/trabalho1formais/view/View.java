@@ -4,20 +4,21 @@
  * and open the template in the editor.
  */
 package trabalho1formais.view;
-
+import trabalho1formais.App;
 /**
  *
  * @author nathan
  */
 public class View extends javax.swing.JFrame {
-
+    private App app;
     /**
      * Creates new form View
      */
-    public View() {
+    public View(App app) {
+        this.app = app;
         initComponents();
-        popupEditionBox = new PopupEditionGrammar();
-        popupEditionRegex = new PopupEditionRegex();
+        popupEditionBox = new PopupEditionGrammar(app);
+        popupEditionRegex = new PopupEditionRegex(app);
     }
 
     /**

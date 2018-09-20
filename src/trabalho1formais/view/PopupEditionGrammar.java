@@ -4,17 +4,19 @@
  * and open the template in the editor.
  */
 package trabalho1formais.view;
-
+import trabalho1formais.App;
 /**
  *
  * @author nathan
  */
 public class PopupEditionGrammar extends javax.swing.JFrame {
 
+    private App app;
     /**
      * Creates new form popupEditionBOx
      */
-    public PopupEditionGrammar() {
+    public PopupEditionGrammar(App app) {
+        this.app = app;
         initComponents();
     }
 
@@ -63,6 +65,11 @@ public class PopupEditionGrammar extends javax.swing.JFrame {
         });
 
         saveChangesButton.setText("Salvar");
+        saveChangesButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveChangesButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -114,6 +121,10 @@ public class PopupEditionGrammar extends javax.swing.JFrame {
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
         this.hide();
     }//GEN-LAST:event_cancelButtonActionPerformed
+
+    private void saveChangesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveChangesButtonActionPerformed
+        app.addNewGrammar(nameInput.getText(), gramarInput.getText());
+    }//GEN-LAST:event_saveChangesButtonActionPerformed
 
   
     // Variables declaration - do not modify//GEN-BEGIN:variables

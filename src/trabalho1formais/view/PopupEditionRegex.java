@@ -4,17 +4,18 @@
  * and open the template in the editor.
  */
 package trabalho1formais.view;
-
+import trabalho1formais.App;
 /**
  *
  * @author nathan
  */
 public class PopupEditionRegex extends javax.swing.JFrame {
-
+    private App app;
     /**
      * Creates new form popupEditionBOx
      */
-    public PopupEditionRegex() {
+    public PopupEditionRegex(App app) {
+        this.app = app;
         initComponents();
     }
 
