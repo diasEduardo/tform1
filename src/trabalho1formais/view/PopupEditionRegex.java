@@ -31,9 +31,10 @@ public class PopupEditionRegex extends javax.swing.JFrame {
         nameInput = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        regexInput = new javax.swing.JTextField();
         cancelButton = new javax.swing.JButton();
         saveChangesButton = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        regexInput = new javax.swing.JTextArea();
 
         setTitle("Inserir Gramática");
 
@@ -48,13 +49,6 @@ public class PopupEditionRegex extends javax.swing.JFrame {
 
         jLabel2.setText("Expressão Regular:");
 
-        regexInput.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-        regexInput.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                regexInputActionPerformed(evt);
-            }
-        });
-
         cancelButton.setBackground(new java.awt.Color(249, 248, 248));
         cancelButton.setText("Cancelar");
         cancelButton.addActionListener(new java.awt.event.ActionListener() {
@@ -65,22 +59,29 @@ public class PopupEditionRegex extends javax.swing.JFrame {
 
         saveChangesButton.setText("Salvar");
 
+        regexInput.setColumns(20);
+        regexInput.setRows(5);
+        jScrollPane1.setViewportView(regexInput);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(cancelButton)
-                        .addGap(18, 18, 18)
-                        .addComponent(saveChangesButton))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(regexInput, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(nameInput, javax.swing.GroupLayout.PREFERRED_SIZE, 293, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel1)
-                        .addComponent(jLabel2)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(cancelButton)
+                            .addGap(18, 18, 18)
+                            .addComponent(saveChangesButton))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(nameInput, javax.swing.GroupLayout.PREFERRED_SIZE, 293, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel1)
+                                .addComponent(jLabel2))
+                            .addGap(15, 15, 15)))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 293, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(23, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -92,8 +93,8 @@ public class PopupEditionRegex extends javax.swing.JFrame {
                 .addComponent(nameInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(regexInput, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cancelButton)
@@ -104,13 +105,14 @@ public class PopupEditionRegex extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    public void clearInputs() {
+        nameInput.setText("");
+        regexInput.setText("");
+    }
+    
     private void nameInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nameInputActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_nameInputActionPerformed
-
-    private void regexInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_regexInputActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_regexInputActionPerformed
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
         this.hide();
@@ -121,8 +123,9 @@ public class PopupEditionRegex extends javax.swing.JFrame {
     private javax.swing.JButton cancelButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField nameInput;
-    private javax.swing.JTextField regexInput;
+    private javax.swing.JTextArea regexInput;
     private javax.swing.JButton saveChangesButton;
     // End of variables declaration//GEN-END:variables
 }

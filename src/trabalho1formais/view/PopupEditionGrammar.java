@@ -19,7 +19,7 @@ public class PopupEditionGrammar extends javax.swing.JFrame {
         this.app = app;
         initComponents();
     }
-
+  
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -107,7 +107,12 @@ public class PopupEditionGrammar extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    
+    public void clearInputs() {
+        nameInput.setText("");
+        gramarInput.setText("");
+    }
+    
     private void nameInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nameInputActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_nameInputActionPerformed
@@ -118,10 +123,15 @@ public class PopupEditionGrammar extends javax.swing.JFrame {
 
     private void saveChangesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveChangesButtonActionPerformed
         app.addNewGrammar(nameInput.getText(), gramarInput.getText());
+        clearInputs();
         this.hide();
     }//GEN-LAST:event_saveChangesButtonActionPerformed
-
-  
+    public void showEdit(String id, String grammarString) {
+        nameInput.setText(id);
+        gramarInput.setText(grammarString);
+        this.show();
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cancelButton;
     private javax.swing.JTextPane gramarInput;

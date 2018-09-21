@@ -20,7 +20,7 @@ public class View extends javax.swing.JFrame {
     public View(App app) {
         this.app = app;
         initComponents();
-        popupEditionBox = new PopupEditionGrammar(app);
+        popupEditionGrammar = new PopupEditionGrammar(app);
         popupEditionRegex = new PopupEditionRegex(app);
     }
 
@@ -141,25 +141,22 @@ public class View extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(24, 24, 24)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(24, 24, 24)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(addRegexButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jScrollPane1)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(12, 12, 12)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(12, 12, 12)
-                                        .addComponent(jLabel1))
-                                    .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(editItem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGap(5, 5, 5))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel2)))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(addRegexButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(12, 12, 12)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGap(12, 12, 12)
+                                    .addComponent(jLabel1))
+                                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(editItem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGap(5, 5, 5)))
+                    .addComponent(jLabel2))
                 .addGap(33, 33, 33)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -242,7 +239,7 @@ public class View extends javax.swing.JFrame {
     }//GEN-LAST:event_addRegexButtonActionPerformed
 
     private void addGramarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addGramarButtonActionPerformed
-        popupEditionBox.show();
+        popupEditionGrammar.show();
     }//GEN-LAST:event_addGramarButtonActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -267,8 +264,19 @@ public class View extends javax.swing.JFrame {
 
     private void editItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editItemActionPerformed
         String selected = grammarNregexList.getSelectedValue();
-        System.out.println(selected);
-//        TODO CHECK IF A GRAMMAR O REGEX AND DISPLAY PROPER VIEW
+        String splitedId[] = selected.split(" - ");
+        String id = splitedId[0];
+        String type = splitedId[1];
+        
+        if ("Gramatica".equals(type)) {
+            if (app.getGrammar(id) != null) {
+                popupEditionGrammar.showEdit(app.getGrammar(id).getId(),
+                        app.getGrammar(id).getSerializedGrammar());
+            }
+        } else {
+//            TODO
+            popupEditionRegex.show();
+        }
     }//GEN-LAST:event_editItemActionPerformed
     
     public void updateGrammarNRegxList(String grammarId) {
@@ -282,7 +290,7 @@ public class View extends javax.swing.JFrame {
      * @param args the command line arguments
      */
 
-    private PopupEditionGrammar popupEditionBox;
+    private PopupEditionGrammar popupEditionGrammar;
     private PopupEditionRegex popupEditionRegex;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addGramarButton;

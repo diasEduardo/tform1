@@ -1,6 +1,7 @@
 package trabalho1formais;
 
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import trabalho1formais.view.View;
 import trabalho1formais.model.grammar.*;
 import trabalho1formais.model.automaton.*;
@@ -10,8 +11,7 @@ import trabalho1formais.model.automaton.*;
  */
 public class App {
     private static View view;
-    private ArrayList<Grammar> grammarList;
-   
+    private  HashMap<String, Grammar> grammarMap;
     public static void main(String[] args) {
        new App();
     }
@@ -19,16 +19,21 @@ public class App {
     public App() {
         this.view = new View(this);
         this.view.show(true);
-        grammarList = new ArrayList<>();
+        grammarMap = new HashMap<String, Grammar>();
     }
     
     public void addNewGrammar(String id, String grammar) {
         Grammar newgrammar = Grammar.parseGrammarInput(id, grammar);
+        
         if (newgrammar != null) {
-            grammarList.add(newgrammar);
+            grammarMap.put(id, newgrammar);
             view.updateGrammarNRegxList(id);
         } else {
             view.displayError("Gramática Incorreta.");
         }      
+    }
+    
+    public Grammar getGrammar(String id) {
+        return grammarMap.get(id);
     }
 }
