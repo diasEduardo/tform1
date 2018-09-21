@@ -20,7 +20,9 @@ public class App {
     }
     
     public void addNewGrammar(String id, String grammar) {
-        Grammar newgrammar = new Grammar(id, grammar);
+        Grammar newgrammar = Grammar.parseGrammarInput(id, grammar);
+        System.out.println(newgrammar.getId());
+        System.out.println(newgrammar.getInitialSimbol());
         System.out.println(newgrammar.getSerializedGrammar());
     }
 }
