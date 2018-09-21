@@ -82,7 +82,7 @@ public class Grammar {
                     return null;
                 }
 			
-		Grammar G = new Grammar(titulo, grammarString);
+		Grammar grammar = new Grammar(titulo, grammarString);
 		Pattern p = Pattern.compile(pattern);
 		Matcher matcher = p.matcher(grammarString);
 		grammarString = "";
@@ -96,10 +96,10 @@ public class Grammar {
 			
 			split = linha.split("->");
 			vn = split[0]; 
-			G.addNonTerminal(vn);
+			grammar.addNonTerminal(vn);
 			
-                        if(G.getInitialSimbol() == null) {
-                            G.setInitialSimbol(vn);
+                        if(grammar.getInitialSimbol() == null) {
+                            grammar.setInitialSimbol(vn);
                         }
 				
 			
@@ -113,14 +113,14 @@ public class Grammar {
 					else
 						tmpVn = "$";
 					
-					G.addTerminal(tmpVt.charAt(0));
-					G.addProduction(vn, tmpVt.charAt(0), tmpVn);
+					grammar.addTerminal(tmpVt.charAt(0));
+					grammar.addProduction(vn, tmpVt.charAt(0), tmpVn);
 				}
 			}
 		}
                 
-		G.setSerializedGrammar(grammarString);
+		grammar.setSerializedGrammar(grammarString);
 		
-		return G;
+		return grammar;
 	}
 }

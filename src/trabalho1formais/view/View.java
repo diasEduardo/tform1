@@ -5,12 +5,15 @@
  */
 package trabalho1formais.view;
 import trabalho1formais.App;
+import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 /**
  *
  * @author nathan
  */
 public class View extends javax.swing.JFrame {
     private App app;
+    private DefaultListModel<String> listModel = new DefaultListModel<>();
     /**
      * Creates new form View
      */
@@ -34,7 +37,7 @@ public class View extends javax.swing.JFrame {
         addGramarButton = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
         jScrollPane1 = new javax.swing.JScrollPane();
-        gramarNregexList = new javax.swing.JList<>();
+        grammarNregexList = new javax.swing.JList<>();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jSeparator2 = new javax.swing.JSeparator();
@@ -66,17 +69,13 @@ public class View extends javax.swing.JFrame {
             }
         });
 
-        gramarNregexList.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        gramarNregexList.addMouseListener(new java.awt.event.MouseAdapter() {
+        grammarNregexList.setModel(listModel);
+        grammarNregexList.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                gramarNregexListMouseClicked(evt);
+                grammarNregexListMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(gramarNregexList);
+        jScrollPane1.setViewportView(grammarNregexList);
 
         jLabel1.setText("Itens Adicionados");
 
@@ -177,12 +176,12 @@ public class View extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 378, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3))
-                .addContainerGap(57, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(22, 22, 22)
                     .addComponent(addGramarButton, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(689, Short.MAX_VALUE)))
+                    .addContainerGap(715, Short.MAX_VALUE)))
         );
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {addGramarButton, addRegexButton});
@@ -262,16 +261,23 @@ public class View extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton6ActionPerformed
 
-    private void gramarNregexListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_gramarNregexListMouseClicked
+    private void grammarNregexListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_grammarNregexListMouseClicked
         
-    }//GEN-LAST:event_gramarNregexListMouseClicked
+    }//GEN-LAST:event_grammarNregexListMouseClicked
 
     private void editItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editItemActionPerformed
-        String selected = gramarNregexList.getSelectedValue();
+        String selected = grammarNregexList.getSelectedValue();
         System.out.println(selected);
 //        TODO CHECK IF A GRAMMAR O REGEX AND DISPLAY PROPER VIEW
     }//GEN-LAST:event_editItemActionPerformed
-
+    
+    public void updateGrammarNRegxList(String grammarId) {
+        listModel.addElement(grammarId.concat(" - Gramatica"));
+    }
+    
+    public void displayError(String errorMsg) {
+        JOptionPane.showMessageDialog(this, errorMsg);
+    }
     /**
      * @param args the command line arguments
      */
@@ -282,7 +288,7 @@ public class View extends javax.swing.JFrame {
     private javax.swing.JButton addGramarButton;
     private javax.swing.JButton addRegexButton;
     private javax.swing.JButton editItem;
-    private javax.swing.JList<String> gramarNregexList;
+    private javax.swing.JList<String> grammarNregexList;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;

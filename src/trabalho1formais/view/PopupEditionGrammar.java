@@ -32,9 +32,10 @@ public class PopupEditionGrammar extends javax.swing.JFrame {
         nameInput = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        gramarInput = new javax.swing.JTextField();
         cancelButton = new javax.swing.JButton();
         saveChangesButton = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        gramarInput = new javax.swing.JTextPane();
 
         setTitle("Inserir Gramática");
 
@@ -48,13 +49,6 @@ public class PopupEditionGrammar extends javax.swing.JFrame {
         jLabel1.setText("Nome:");
 
         jLabel2.setText("Gramatica:");
-
-        gramarInput.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-        gramarInput.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                gramarInputActionPerformed(evt);
-            }
-        });
 
         cancelButton.setBackground(new java.awt.Color(249, 248, 248));
         cancelButton.setText("Cancelar");
@@ -71,6 +65,8 @@ public class PopupEditionGrammar extends javax.swing.JFrame {
             }
         });
 
+        jScrollPane1.setViewportView(gramarInput);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -82,11 +78,13 @@ public class PopupEditionGrammar extends javax.swing.JFrame {
                         .addComponent(cancelButton)
                         .addGap(18, 18, 18)
                         .addComponent(saveChangesButton))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(gramarInput, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(nameInput, javax.swing.GroupLayout.PREFERRED_SIZE, 293, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel1)
-                        .addComponent(jLabel2)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jScrollPane1)
+                            .addComponent(nameInput, javax.swing.GroupLayout.DEFAULT_SIZE, 293, Short.MAX_VALUE)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING))
+                        .addGap(15, 15, 15)))
                 .addContainerGap(23, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -99,8 +97,8 @@ public class PopupEditionGrammar extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(gramarInput, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cancelButton)
                     .addComponent(saveChangesButton))
@@ -114,24 +112,22 @@ public class PopupEditionGrammar extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_nameInputActionPerformed
 
-    private void gramarInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gramarInputActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_gramarInputActionPerformed
-
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
         this.hide();
     }//GEN-LAST:event_cancelButtonActionPerformed
 
     private void saveChangesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveChangesButtonActionPerformed
         app.addNewGrammar(nameInput.getText(), gramarInput.getText());
+        this.hide();
     }//GEN-LAST:event_saveChangesButtonActionPerformed
 
   
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cancelButton;
-    private javax.swing.JTextField gramarInput;
+    private javax.swing.JTextPane gramarInput;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField nameInput;
     private javax.swing.JButton saveChangesButton;
     // End of variables declaration//GEN-END:variables
