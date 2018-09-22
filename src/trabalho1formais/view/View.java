@@ -282,6 +282,9 @@ public class View extends javax.swing.JFrame {
     public void updateGrammarNRegxList(String grammarId) {
         listModel.addElement(grammarId.concat(" - Gramatica"));
     }
+    public void removeGrammarNRegxList(String grammarId) {
+        listModel.removeElement(grammarId.concat(" - Gramatica"));
+    }
     
     public void displayError(String errorMsg) {
         JOptionPane.showMessageDialog(this, errorMsg);

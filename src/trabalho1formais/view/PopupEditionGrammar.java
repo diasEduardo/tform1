@@ -4,7 +4,9 @@
  * and open the template in the editor.
  */
 package trabalho1formais.view;
+
 import trabalho1formais.App;
+
 /**
  *
  * @author nathan
@@ -12,14 +14,19 @@ import trabalho1formais.App;
 public class PopupEditionGrammar extends javax.swing.JFrame {
 
     private App app;
+    private boolean editing;
+    private String editName;
+
     /**
      * Creates new form popupEditionBOx
      */
     public PopupEditionGrammar(App app) {
         this.app = app;
         initComponents();
+        this.editing = false;
+        this.editName = "";
     }
-  
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -107,12 +114,14 @@ public class PopupEditionGrammar extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    
+
     public void clearInputs() {
         nameInput.setText("");
         gramarInput.setText("");
+        this.editing = false;
+        this.editName = "";
     }
-    
+
     private void nameInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nameInputActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_nameInputActionPerformed
@@ -122,16 +131,28 @@ public class PopupEditionGrammar extends javax.swing.JFrame {
     }//GEN-LAST:event_cancelButtonActionPerformed
 
     private void saveChangesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveChangesButtonActionPerformed
-        app.addNewGrammar(nameInput.getText(), gramarInput.getText());
-        clearInputs();
-        this.hide();
+        String name = nameInput.getText();
+
+        if (( !app.grammarExists(name) ) || (this.editing && this.editName.equals(name))  ) {
+            app.addNewGrammar(name, gramarInput.getText());
+            if (this.editing && !this.editName.equals(name)) {
+                app.removeGrammar(this.editName);
+            }
+            clearInputs();
+            this.hide();
+
+        } else {
+            app.displayError("Nome inválido: Existe outra gramatica com mesmo nome.");
+        }
     }//GEN-LAST:event_saveChangesButtonActionPerformed
     public void showEdit(String id, String grammarString) {
         nameInput.setText(id);
         gramarInput.setText(grammarString);
+        this.editing = true;
+        this.editName = id;
         this.show();
     }
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cancelButton;
     private javax.swing.JTextPane gramarInput;
