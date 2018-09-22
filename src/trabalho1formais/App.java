@@ -26,8 +26,11 @@ public class App {
         Grammar newgrammar = Grammar.parseGrammarInput(id, grammar);
         
         if (newgrammar != null) {
+            if (!grammarMap.containsKey(id)) {
+                view.updateGrammarNRegxList(id);
+            }
+            
             grammarMap.put(id, newgrammar);
-            view.updateGrammarNRegxList(id);
         } else {
             view.displayError("Gramática Incorreta.");
         }      
