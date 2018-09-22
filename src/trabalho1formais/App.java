@@ -13,7 +13,7 @@ import trabalho1formais.model.automaton.*;
 public class App {
 
     private static View view;
-    private HashMap<String, Grammar> grammarMap;
+    private HashMap<String, Regular> regularMap;
 
     public static void main(String[] args) {
         new App();
@@ -22,34 +22,34 @@ public class App {
     public App() {
         this.view = new View(this);
         this.view.show(true);
-        grammarMap = new HashMap<String, Grammar>();
+        regularMap = new HashMap<String, Regular>();
     }
 
     public void addNewGrammar(String id, String grammar) {
         Grammar newgrammar = Grammar.parseGrammarInput(id, grammar);
 
         if (newgrammar != null) {
-            if (!grammarMap.containsKey(id)) {
-                view.updateGrammarNRegxList(id);
+            if (!regularMap.containsKey(id)) {
+                view.updateRegularList(id+" - "+newgrammar.getType());
             }
 
-            grammarMap.put(id, newgrammar);
+            regularMap.put(id, newgrammar);
         } else {
             view.displayError("Gramática Incorreta.");
         }
     }
 
     public Grammar getGrammar(String id) {
-        return grammarMap.get(id);
+        return (Grammar) regularMap.get(id);
     }
 
     public boolean grammarExists(String id) {
-        return grammarMap.containsKey(id);
+        return regularMap.containsKey(id);
     }
 
     public void removeGrammar(String id) {
-        grammarMap.remove(id);
-        view.removeGrammarNRegxList(id);
+        view.removeRegularList(id+" - "+regularMap.get(id).getType());
+        regularMap.remove(id);
     }
     
     public void displayError(String msg){

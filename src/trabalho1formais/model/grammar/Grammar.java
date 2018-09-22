@@ -3,13 +3,14 @@ package trabalho1formais.model.grammar;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import trabalho1formais.Regular;
 
 /**
  * Definição de uma Gramatica
  *
  * @author nathan
  */
-public class Grammar {
+public class Grammar extends Regular  {
 
     private ArrayList<String> Vn;
     private ArrayList<Character> Vt;
@@ -26,7 +27,7 @@ public class Grammar {
     public Grammar(String id, ArrayList<String> Vn, ArrayList<Character> Vt,
             ArrayList<Production> productions, String initialSimbol,
             String serializedGrammar) {
-
+        super("GR");
         this.id = id;
         this.Vn = Vn;
         this.Vt = Vt;
@@ -35,6 +36,7 @@ public class Grammar {
     }
 
     public Grammar(String id, String serializedGrammar) {
+        super("GR");
         this.id = id;
         this.Vn = new ArrayList<String>();
         this.Vt = new ArrayList<Character>();
