@@ -3,7 +3,7 @@ package trabalho1formais.model.grammar;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import trabalho1formais.Regular;
+import model.Regular;
 
 /**
  * Definição de uma Gramatica

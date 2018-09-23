@@ -1,5 +1,7 @@
 package trabalho1formais;
 
+import java.util.ArrayList;
+import model.Regular;
 import java.util.HashMap;
 import java.util.Map;
 import trabalho1formais.view.View;
@@ -18,6 +20,26 @@ public class App {
 
     public static void main(String[] args) {
         new App();
+//        test
+        State q0 = new State("q0");
+        State q1 = new State("q1");
+        ArrayList<State> states = new ArrayList<State>();
+        ArrayList<State> statesFinal = new ArrayList<State>();
+        states.add(q0);
+        states.add(q1);
+        statesFinal.add(q1);
+        ArrayList<Character> alphabet = new ArrayList<Character>();
+        alphabet.add('a');
+        alphabet.add('b');
+        Transitions t = new Transitions();
+        t.addTransition(q0, 'b', q0);
+        t.addTransition(q0, 'a', q1);
+        t.addTransition(q1, 'a', q1);
+        t.addTransition(q0, 'b', q1);
+        Automaton at = new Automaton(states, alphabet, 
+                t,q0, statesFinal);
+      
+        System.err.println(at.getStates().toString());
     }
 
     public App() {
