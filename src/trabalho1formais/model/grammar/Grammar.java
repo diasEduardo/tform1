@@ -10,7 +10,7 @@ import trabalho1formais.Regular;
  *
  * @author nathan
  */
-public class Grammar extends Regular  {
+public class Grammar extends Regular {
 
     private ArrayList<String> Vn;
     private ArrayList<Character> Vt;
@@ -78,6 +78,10 @@ public class Grammar extends Regular  {
 
     public void setInitialSimbol(String initialSimbol) {
         this.initialSimbol = initialSimbol;
+    }
+
+    public String getType() {
+        return super.getType();
     }
 
     public static Grammar parseGrammarInput(String titulo, String grammarString) {
