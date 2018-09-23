@@ -37,7 +37,7 @@ public class View extends javax.swing.JFrame {
         addGramarButton = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
         jScrollPane1 = new javax.swing.JScrollPane();
-        grammarNregexList = new javax.swing.JList<>();
+        RegularList = new javax.swing.JList<>();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jSeparator2 = new javax.swing.JSeparator();
@@ -69,13 +69,13 @@ public class View extends javax.swing.JFrame {
             }
         });
 
-        grammarNregexList.setModel(listModel);
-        grammarNregexList.addMouseListener(new java.awt.event.MouseAdapter() {
+        RegularList.setModel(listModel);
+        RegularList.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                grammarNregexListMouseClicked(evt);
+                RegularListMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(grammarNregexList);
+        jScrollPane1.setViewportView(RegularList);
 
         jLabel1.setText("Itens Adicionados");
 
@@ -258,17 +258,17 @@ public class View extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton6ActionPerformed
 
-    private void grammarNregexListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_grammarNregexListMouseClicked
+    private void RegularListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_RegularListMouseClicked
         
-    }//GEN-LAST:event_grammarNregexListMouseClicked
+    }//GEN-LAST:event_RegularListMouseClicked
 
     private void editItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editItemActionPerformed
-        String selected = grammarNregexList.getSelectedValue();
+        String selected = RegularList.getSelectedValue();
         String splitedId[] = selected.split(" - ");
         String id = splitedId[0];
         String type = splitedId[1];
         
-        if ("Gramatica".equals(type)) {
+        if ("GR".equals(type)) {
             if (app.getGrammar(id) != null) {
                 popupEditionGrammar.showEdit(app.getGrammar(id).getId(),
                         app.getGrammar(id).getSerializedGrammar());
@@ -279,8 +279,11 @@ public class View extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_editItemActionPerformed
     
-    public void updateGrammarNRegxList(String grammarId) {
-        listModel.addElement(grammarId.concat(" - Gramatica"));
+    public void updateRegularList(String text) {
+        listModel.addElement(text);
+    }
+    public void removeRegularList(String text) {
+        listModel.removeElement(text);
     }
     
     public void displayError(String errorMsg) {
@@ -296,7 +299,7 @@ public class View extends javax.swing.JFrame {
     private javax.swing.JButton addGramarButton;
     private javax.swing.JButton addRegexButton;
     private javax.swing.JButton editItem;
-    private javax.swing.JList<String> grammarNregexList;
+    private javax.swing.JList<String> RegularList;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
