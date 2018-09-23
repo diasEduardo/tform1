@@ -4,16 +4,20 @@
  * and open the template in the editor.
  */
 package trabalho1formais.view;
+
 import trabalho1formais.App;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
+
 /**
  *
  * @author nathan
  */
 public class View extends javax.swing.JFrame {
+
     private App app;
     private DefaultListModel<String> listModel = new DefaultListModel<>();
+
     /**
      * Creates new form View
      */
@@ -259,7 +263,7 @@ public class View extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void RegularListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_RegularListMouseClicked
-        
+
     }//GEN-LAST:event_RegularListMouseClicked
 
     private void editItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editItemActionPerformed
@@ -267,25 +271,30 @@ public class View extends javax.swing.JFrame {
         String splitedId[] = selected.split(" - ");
         String id = splitedId[0];
         String type = splitedId[1];
-        
+
         if ("GR".equals(type)) {
             if (app.getGrammar(id) != null) {
                 popupEditionGrammar.showEdit(app.getGrammar(id).getId(),
                         app.getGrammar(id).getSerializedGrammar());
             }
+        } else if ("ER".equals(type)) {
+            if (app.getRegex(id) != null) {
+                popupEditionRegex.showEdit(app.getRegex(id).getId(),
+                        app.getRegex(id).getRegex());
+            }
         } else {
-//            TODO
-            popupEditionRegex.show();
+//           
         }
     }//GEN-LAST:event_editItemActionPerformed
-    
+
     public void updateRegularList(String text) {
         listModel.addElement(text);
     }
+
     public void removeRegularList(String text) {
         listModel.removeElement(text);
     }
-    
+
     public void displayError(String errorMsg) {
         JOptionPane.showMessageDialog(this, errorMsg);
     }

@@ -11,12 +11,16 @@ import trabalho1formais.App;
  */
 public class PopupEditionRegex extends javax.swing.JFrame {
     private App app;
+    private boolean editing;
+    private String editName;
     /**
      * Creates new form popupEditionBOx
      */
     public PopupEditionRegex(App app) {
         this.app = app;
         initComponents();
+        this.editing = false;
+        this.editName = "";
     }
 
     /**
@@ -58,6 +62,11 @@ public class PopupEditionRegex extends javax.swing.JFrame {
         });
 
         saveChangesButton.setText("Salvar");
+        saveChangesButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveChangesButtonActionPerformed(evt);
+            }
+        });
 
         regexInput.setColumns(20);
         regexInput.setRows(5);
@@ -108,6 +117,8 @@ public class PopupEditionRegex extends javax.swing.JFrame {
     public void clearInputs() {
         nameInput.setText("");
         regexInput.setText("");
+        this.editing = false;
+        this.editName = "";
     }
     
     private void nameInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nameInputActionPerformed
@@ -115,9 +126,33 @@ public class PopupEditionRegex extends javax.swing.JFrame {
     }//GEN-LAST:event_nameInputActionPerformed
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
+        clearInputs();
         this.hide();
     }//GEN-LAST:event_cancelButtonActionPerformed
 
+    private void saveChangesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveChangesButtonActionPerformed
+        String name = nameInput.getText();
+
+        if (( !app.alreadyExists(name) ) || (this.editing && this.editName.equals(name))  ) {
+            app.addNewRegex(name, regexInput.getText());
+            if (this.editing && !this.editName.equals(name)) {
+                app.removeID(this.editName);
+            }
+            clearInputs();
+            this.hide();
+
+        } else {
+            app.displayError("Nome inválido: Existe outra gramatica com mesmo nome.");
+        }        // TODO add your handling code here:
+    }//GEN-LAST:event_saveChangesButtonActionPerformed
+
+    public void showEdit(String id, String regexString) {
+        nameInput.setText(id);
+        regexInput.setText(regexString);
+        this.editing = true;
+        this.editName = id;
+        this.show();
+    }
   
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cancelButton;

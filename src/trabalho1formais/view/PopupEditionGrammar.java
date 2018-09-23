@@ -127,16 +127,17 @@ public class PopupEditionGrammar extends javax.swing.JFrame {
     }//GEN-LAST:event_nameInputActionPerformed
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
+        clearInputs();
         this.hide();
     }//GEN-LAST:event_cancelButtonActionPerformed
 
     private void saveChangesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveChangesButtonActionPerformed
         String name = nameInput.getText();
 
-        if (( !app.grammarExists(name) ) || (this.editing && this.editName.equals(name))  ) {
+        if (( !app.alreadyExists(name) ) || (this.editing && this.editName.equals(name))  ) {
             app.addNewGrammar(name, gramarInput.getText());
             if (this.editing && !this.editName.equals(name)) {
-                app.removeGrammar(this.editName);
+                app.removeID(this.editName);
             }
             clearInputs();
             this.hide();

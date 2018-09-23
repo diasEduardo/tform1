@@ -18,7 +18,7 @@ public abstract class Regular {
 		this.type = type;
 	}
 	
-	// Titulo
+	
 	public String getType(){
 		return this.type;
 	}
