@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import model.Regular;
+import trabalho1formais.model.automaton.Automaton;
+import trabalho1formais.model.automaton.State;
+import trabalho1formais.model.automaton.Transitions;
 
 /**
  * Definição de uma Gramatica
@@ -47,6 +50,17 @@ public class Grammar extends Regular {
     public void addProduction(String current, char generated, String next) {
         productions.add(new Production(current, generated, next));
     }
+    
+    public ArrayList<Production> getProductions(String currentSimbol){
+        ArrayList<Production> prods = new ArrayList<>();
+        for (Production p : productions){
+                if(p.getCurrent().equals(currentSimbol)) {
+                    prods.add(p);
+                }                     
+        }
+        return prods;
+    }
+
 
     public String getSerializedGrammar() {
         return serializedGrammar;
@@ -65,11 +79,13 @@ public class Grammar extends Regular {
     }
 
     public void addNonTerminal(String nonterminal) {
-        Vn.add(nonterminal);
+        if (!Vn.contains(nonterminal))
+            Vn.add(nonterminal);
     }
 
     public void addTerminal(Character terminal) {
-        Vt.add(terminal);
+        if (!Vt.contains(terminal))
+            Vt.add(terminal);
     }
 
     public String getInitialSimbol() {
@@ -132,4 +148,52 @@ public class Grammar extends Regular {
 
         return grammar;
     }
+    
+    public ArrayList<String> getVn() {
+        return Vn;
+    }
+
+    public ArrayList<Character> getVt() {
+        return Vt;
+    }
+    
+    public static Automaton convertToAutomaton(Grammar grammar) {
+        Transitions transitions = new Transitions();
+        State initialState = new State(grammar.getInitialSimbol());
+        ArrayList<State> finalStates;
+        String id = grammar.id;
+	ArrayList<State> automatonStates = new ArrayList<>();
+        ArrayList<State> automatonFStates = new ArrayList<>();	
+	State sFinal = new State("F");
+	automatonStates.add(sFinal);
+        automatonFStates.add(sFinal);
+	
+        for(String vn : grammar.getVn()){
+                State s = new State(vn);
+                automatonStates.add(s);
+                
+                if(vn.equals(grammar.getInitialSimbol())) {
+                    initialState = s;
+                }
+                        
+                for(Production p : grammar.getProductions(vn)){
+                        if(p.getNext().equals("$"))
+                                transitions.addTransition(s, p.getGenerated(), sFinal);
+                        else
+                                transitions.addTransition(s, p.getGenerated(), new State(p.getNext()));
+
+                        if(vn.equals(grammar.getInitialSimbol()) && p.getGenerated() == '&')
+                                automatonFStates.add(s);
+                }
+        }
+        
+        Automaton at =  new Automaton(automatonStates, grammar.getVt(), 
+                transitions, initialState, automatonFStates);
+        
+        at.setId(id + " - " + at.getId());
+        
+        return at;
+    }
+
+    
 }

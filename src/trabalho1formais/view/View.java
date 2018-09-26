@@ -116,13 +116,10 @@ public class View extends javax.swing.JFrame {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"->q0", "q1", "q0"},
-                {"*q1", "q0", "q1"},
-                {null, null, null},
-                {null, null, null}
+
             },
             new String [] {
-                "Estados", "a", "b"
+
             }
         ));
         jScrollPane2.setViewportView(jTable1);
@@ -247,11 +244,16 @@ public class View extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
+        String selected = grammarNregexList.getSelectedValue();
+        String splitedId[] = selected.split(" - ");
+        String id = splitedId[0];
+        String type = splitedId[1];
+        
+        app.convertToAutomaton(id);
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        // TODO add your handling code here:
+//        grammarNregexList.getSelectedValuesList();
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed

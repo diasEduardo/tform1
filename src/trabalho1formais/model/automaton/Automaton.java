@@ -106,19 +106,24 @@ public class Automaton extends Regular{
             j++;
             
             for (String alfa: column.subList(1, column.size())) {
-                ArrayList<State> combinedState = at.getTransitions().getTransition(state)
+                try {
+                    ArrayList<State> combinedState = at.getTransitions().getTransition(state)
                         .get(alfa.charAt(0));
-                if (combinedState != null ){
-                    String aux = "";
-                    aux = combinedState.stream()
-                            .map((s) -> s.getName() + ",")
-                            .reduce(aux, String::concat);
-                   
-                    data[i][j] = aux.substring(0, aux.length()-1);
-                } else {
+                    if (combinedState != null ){
+                        String aux = "";
+                        aux = combinedState.stream()
+                                .map((s) -> s.getName() + ",")
+                                .reduce(aux, String::concat);
+
+                        data[i][j] = aux.substring(0, aux.length()-1);
+                    } else {
+                        data[i][j] = "";
+                    }
+                } catch (Exception e) {
                     data[i][j] = "";
-                }
-                j++;
+                } finally {
+                    j++;
+                }                          
             }
             
             j= 0;
