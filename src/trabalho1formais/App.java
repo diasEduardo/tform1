@@ -35,11 +35,11 @@ public class App {
         t.addTransition(q0, 'b', q0);
         t.addTransition(q0, 'a', q1);
         t.addTransition(q1, 'a', q1);
-        t.addTransition(q0, 'b', q1);
+        t.addTransition(q0, 'a', q0);
         Automaton at = new Automaton(states, alphabet, 
                 t,q0, statesFinal);
       
-        System.err.println(at.getStates().toString());
+        view.updateTable(Automaton.toTable(at));
     }
 
     public App() {

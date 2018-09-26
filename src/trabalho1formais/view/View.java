@@ -8,6 +8,7 @@ package trabalho1formais.view;
 import trabalho1formais.App;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
+import trabalho1formais.model.automaton.ViewTable;
 
 /**
  *
@@ -41,7 +42,7 @@ public class View extends javax.swing.JFrame {
         addGramarButton = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
         jScrollPane1 = new javax.swing.JScrollPane();
-        RegularList = new javax.swing.JList<>();
+        grammarNregexList = new javax.swing.JList<>();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jSeparator2 = new javax.swing.JSeparator();
@@ -73,13 +74,8 @@ public class View extends javax.swing.JFrame {
             }
         });
 
-        RegularList.setModel(listModel);
-        RegularList.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                RegularListMouseClicked(evt);
-            }
-        });
-        jScrollPane1.setViewportView(RegularList);
+        grammarNregexList.setModel(listModel);
+        jScrollPane1.setViewportView(grammarNregexList);
 
         jLabel1.setText("Itens Adicionados");
 
@@ -120,13 +116,13 @@ public class View extends javax.swing.JFrame {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {"->q0", "q1", "q0"},
+                {"*q1", "q0", "q1"},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Estados", "a", "b"
             }
         ));
         jScrollPane2.setViewportView(jTable1);
@@ -267,7 +263,7 @@ public class View extends javax.swing.JFrame {
     }//GEN-LAST:event_RegularListMouseClicked
 
     private void editItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editItemActionPerformed
-        String selected = RegularList.getSelectedValue();
+        String selected = grammarNregexList.getSelectedValue();
         String splitedId[] = selected.split(" - ");
         String id = splitedId[0];
         String type = splitedId[1];
@@ -286,7 +282,11 @@ public class View extends javax.swing.JFrame {
 //           
         }
     }//GEN-LAST:event_editItemActionPerformed
-
+    
+    public void updateTable(ViewTable vt) {
+        jTable1.setModel(new javax.swing.table
+                .DefaultTableModel(vt.getData(), vt.getColumn()));
+    }
     public void updateRegularList(String text) {
         listModel.addElement(text);
     }
@@ -308,7 +308,7 @@ public class View extends javax.swing.JFrame {
     private javax.swing.JButton addGramarButton;
     private javax.swing.JButton addRegexButton;
     private javax.swing.JButton editItem;
-    private javax.swing.JList<String> RegularList;
+    private javax.swing.JList<String> grammarNregexList;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;

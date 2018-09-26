@@ -79,6 +79,10 @@ public class Transitions {
 	public HashMap<State, HashMap<Character, ArrayList<State>>> getTransitions(){
 		return this.transitions;
 	}
+        
+        public HashMap<Character, ArrayList<State>> getTransition(State state){
+		return this.transitions.get(state);
+	}
 
 	@Override
 	public String toString() {

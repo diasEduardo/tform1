@@ -6,6 +6,7 @@
 package trabalho1formais.model.automaton;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import model.Regular;
 
 /**
@@ -81,5 +82,49 @@ public class Automaton extends Regular{
     public void setId(String id) {
         this.id = id;
     }
-    
+   
+    public static ViewTable toTable(Automaton at) {
+        ArrayList<String> column = new ArrayList<>();
+        Object[][] data;
+        column.add("Estados");
+        
+        for (Character alfa: at.getAlphabet()) {
+            column.add(alfa.toString());
+        }
+        data = new Object[at.getStates().size()][column.size()];
+        int i = 0, j = 0;
+        
+        for (State state: at.getStates()){
+            String rowState = "";
+            if (state.equals(at.initialState)) {
+                rowState += "->";
+            } else if (at.finalStates.contains(state)){
+                rowState += "*";
+            }
+            
+            data[i][j] = rowState.concat(state.getName());
+            j++;
+            
+            for (String alfa: column.subList(1, column.size())) {
+                ArrayList<State> combinedState = at.getTransitions().getTransition(state)
+                        .get(alfa.charAt(0));
+                if (combinedState != null ){
+                    String aux = "";
+                    aux = combinedState.stream()
+                            .map((s) -> s.getName() + ",")
+                            .reduce(aux, String::concat);
+                   
+                    data[i][j] = aux.substring(0, aux.length()-1);
+                } else {
+                    data[i][j] = "";
+                }
+                j++;
+            }
+            
+            j= 0;
+            i++;
+        }
+        
+        return new ViewTable(column.toArray(new String[0]), data);
+    }
 }
