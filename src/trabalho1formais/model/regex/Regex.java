@@ -5,7 +5,7 @@
  */
 package trabalho1formais.model.regex;
 
-import trabalho1formais.Regular;
+import model.Regular;
 
 /**
  *
