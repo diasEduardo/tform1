@@ -190,7 +190,7 @@ public class Grammar extends Regular {
         Automaton at =  new Automaton(automatonStates, grammar.getVt(), 
                 transitions, initialState, automatonFStates);
         
-        at.setId(id + " - " + at.getId());
+        at.setId(id + "#" + at.getId());
         
         return at;
     }

@@ -34,7 +34,7 @@ public class View extends javax.swing.JFrame {
         String selected = grammarNregexList.getSelectedValue();
         String splitedId[] = selected.split(" - ");
         String id = splitedId[0];
-        
+     
         return id;
     }
 
