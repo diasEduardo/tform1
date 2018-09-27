@@ -38,6 +38,15 @@ public class App {
     private void convertRegexToAT(Regex regex) {
 //        TODO
     }
+    
+    public void minimize(String id) {
+        Regular reg = regularMap.get(id);
+        
+        if (reg.getType().equals("AUTOMATON")){
+            Automaton at = (Automaton) reg;
+//            TODO
+        }
+    }
 
     public void addNewGrammar(String id, String grammar) {
         Grammar newgrammar = Grammar.parseGrammarInput(id, grammar);
