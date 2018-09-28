@@ -12,7 +12,7 @@ package model;
 public abstract class Regular {
         // typeof GR/ER/AF
 	private String type;
-
+        public static char epilsonSimbol = 'ε';
 	
 	public Regular(String type){
 		this.type = type;

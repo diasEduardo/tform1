@@ -7,6 +7,8 @@ package trabalho1formais.model.automaton;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 import model.Regular;
 
 /**
@@ -21,20 +23,29 @@ public class Automaton extends Regular{
     private State initialState;
     private ArrayList<State> finalStates;
     private String id;
+    private boolean isAFD;
     private static int automatosCount = 0;
     
     public Automaton(ArrayList<State> states, ArrayList<Character> alphabet, 
             Transitions transitions, State initialState,  ArrayList<State> finalStates) {
         super("AUTOMATON");
         automatosCount++;
-        this.id = "Automato ".concat(automatosCount + "");
+        this.id = "Automato".concat(automatosCount + "");
         this.alphabet = alphabet;
         this.initialState = initialState;
         this.finalStates = finalStates;
         this.states = states;
         this.transitions = transitions;
+        isAFD = false;
     }
     
+    public boolean isIsAFD() {
+        return isAFD;
+    }
+    
+    public void setAFD() {
+        this.isAFD = true;
+    }
     public ArrayList<State> getStates() {
         return states;
     }
@@ -131,5 +142,111 @@ public class Automaton extends Regular{
         }
         
         return new ViewTable(column.toArray(new String[0]), data);
+    }
+    
+    public HashMap<State, Set<State>> getEpsilonFechos(){
+        HashMap<State, Set<State>> result = new HashMap<>();
+        Set<State> set;
+        for(State s : states){
+            set = new HashSet<>();
+            set.add(s);
+            
+            for(State s2 : transitions.getNextStates(s, epilsonSimbol)){
+                if(!s2.equals(s)) {
+                    set.add(s2);
+                }
+
+            }
+
+            result.put(s, set);
+        }
+        
+        return result;
+    }
+    
+    private boolean hasInnerState(State s) {
+        for (State s1: this.getStates()) {
+            if (s1.getName().equals(s.getName()))
+                return true;
+        }
+        
+        return false;
+    }
+    
+    public void erraseTransitionsWithSimble(char simbol) {
+        if(alphabet.contains(simbol)){
+            transitions.removeTransitionsBySimbol(simbol);
+            alphabet.remove((Character) simbol);
+        }
+    }
+    
+    private static void convertToAFD(Automaton af, Automaton afd,
+        HashMap<State, Set<State>> fechos, Set<State> states, boolean firstIteraction) {
+
+        State current = new State(states.toString());
+
+        if(afd.hasInnerState(current)) {
+            return;
+        }
+                
+        Set<State> newStates = new HashSet<>();
+        Set<Set<State>> lastAdded = new HashSet<>();
+
+        afd.getStates().add(current);
+        
+        if(firstIteraction) {
+            afd.setInitialState(current);
+        }
+                
+        for(State s : states) {
+            if(af.getFinalStates().contains(s)) {
+                afd.getFinalStates().add(current);
+            }
+        }
+            
+        for(char c : afd.getAlphabet()){
+            for(State s : states) {
+                for(State s1 : af.getTransitions().getNextStates(s, c)) {
+                    for(State s2 : af.getStates()) {
+                        if (s2.getName().equals(s1.getName())){
+                            newStates.addAll(fechos.get(s2));
+                        }
+                    }                   
+                 }
+
+            }
+
+            if(!newStates.isEmpty()){
+                State sNew = new State(newStates.toString());
+                afd.getTransitions().addTransition(current, c, sNew);
+                lastAdded.add(new HashSet<>(newStates));
+            }
+
+            newStates.clear();
+        }
+
+        for(Set<State> s : lastAdded) {
+            convertToAFD(af, afd, fechos, s, false);
+        }           
+    }
+    
+    public static Automaton determinize(Automaton af) {
+        if (af.isIsAFD()) {
+            return af;
+        }
+        
+        HashMap<State, Set<State>> fechos = af.getEpsilonFechos();
+
+        Automaton afd = new Automaton(new ArrayList<>(), af.getAlphabet(), 
+				new Transitions(), null, new ArrayList<>());
+        	
+        afd.erraseTransitionsWithSimble(epilsonSimbol);
+
+        convertToAFD(af, afd, fechos, 
+                        fechos.get(af.getInitialState()), true);
+
+        afd.setAFD();
+        afd.setId(af.getId()+ "#Minimo");
+        return afd;
     }
 }
