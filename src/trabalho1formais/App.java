@@ -43,7 +43,7 @@ public class App {
         Regular reg = regularMap.get(id);
         
         if (reg.getType().equals("AUTOMATON")){
-            Automaton afd = Automaton.determinize((Automaton) reg);
+            Automaton afd = Automaton.minimize((Automaton) reg);
             regularMap.put(afd.getId(), afd);
             view.updateTable(Automaton.toTable(afd));
             view.updateRegularList(afd.getId());

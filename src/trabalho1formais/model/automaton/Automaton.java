@@ -24,6 +24,10 @@ public class Automaton extends Regular{
     private ArrayList<State> finalStates;
     private String id;
     private boolean isAFD;
+
+    
+    private boolean isMim;
+    private boolean isEmpty;
     private static int automatosCount = 0;
     
     public Automaton(ArrayList<State> states, ArrayList<Character> alphabet, 
@@ -37,9 +41,26 @@ public class Automaton extends Regular{
         this.states = states;
         this.transitions = transitions;
         isAFD = false;
+        isMim = false;
+        isEmpty = false;
     }
     
-    public boolean isIsAFD() {
+    public boolean isIsMim() {
+        return isMim;
+    }
+
+    public void setIsMim(boolean isMim) {
+        this.isMim = isMim;
+    }
+
+    public boolean isIsEmpty() {
+        return isEmpty;
+    }
+
+    public void setIsEmpty(boolean isEmpty) {
+        this.isEmpty = isEmpty;
+    }
+    public boolean isAFD() {
         return isAFD;
     }
     
@@ -163,6 +184,47 @@ public class Automaton extends Regular{
         
         return result;
     }
+    public State getState(String name){
+        for(State s : states){
+                if(s.getName().equals(name))
+                        return s;
+        }
+        return null;
+    }
+    public ArrayList<State> getNotFinalStates(){
+        ArrayList<State> result = new ArrayList<>();
+        
+        for(State s : states)
+            if(!this.getFinalStates().contains(s)) {
+                result.add(s);
+            }
+
+        return result;
+    }
+    
+    public ArrayList<State> getAllNextStates(State current){
+        ArrayList<State> result = new ArrayList<>();
+
+        for(char c : alphabet) {
+            result.addAll(transitions.getNextStates(current, c));
+        }
+                
+
+        return result;
+    }
+	
+
+	
+    public ArrayList<State> getAllPreviousStates(State current){
+        ArrayList<State> result = new ArrayList<>();
+
+        for(State s : states) {
+            if(getAllNextStates(s).contains(current))
+                        result.add(s);
+        }
+                
+        return result;
+    }
     
     private boolean hasInnerState(State s) {
         for (State s1: this.getStates()) {
@@ -173,7 +235,7 @@ public class Automaton extends Regular{
         return false;
     }
     
-    public void erraseTransitionsWithSimble(char simbol) {
+    private void erraseTransitionsWithSimble(char simbol) {
         if(alphabet.contains(simbol)){
             transitions.removeTransitionsBySimbol(simbol);
             alphabet.remove((Character) simbol);
@@ -231,7 +293,7 @@ public class Automaton extends Regular{
     }
     
     public static Automaton determinize(Automaton af) {
-        if (af.isIsAFD()) {
+        if (af.isAFD()) {
             return af;
         }
         
@@ -246,7 +308,178 @@ public class Automaton extends Regular{
                         fechos.get(af.getInitialState()), true);
 
         afd.setAFD();
-        afd.setId(af.getId()+ "#Minimo");
         return afd;
+    }
+    
+    private static int getEquivalentSet(ArrayList<ArrayList<State>> eqSets,
+			State state) {
+        
+        for(int i = 0; i<eqSets.size(); i++) {
+            if(eqSets.get(i).contains(state))
+                        return i;
+        }
+
+        return -1;
+    }
+    
+    private static ArrayList<ArrayList<State>> calculeEqSets(Automaton min,
+        ArrayList<ArrayList<State>> eqSets) {
+        ArrayList<ArrayList<State>> newEqSets = new ArrayList<>();
+        ArrayList<State> tmp;
+        boolean toAdd;
+
+        for(ArrayList<State> set : eqSets){
+            for(int i = 0; i < set.size(); i++){
+                if(getEquivalentSet(newEqSets, set.get(i)) == -1){
+                    tmp = new ArrayList<>();
+                    tmp.add(set.get(i));
+                    for(int k = i+1; k < set.size(); k++){
+                        toAdd = true;
+                        for(char c : min.getAlphabet()){
+                                if(getEquivalentSet(
+                                        eqSets, min.getTransitions().getNextStates(set.get(i), c).get(0)) !=
+                                                getEquivalentSet(eqSets, min.getTransitions().getNextStates(set.get(k), c).get(0))) {
+                                    toAdd = false;
+                                }
+
+                        }
+
+                        if(toAdd) {
+                            tmp.add(set.get(k));
+                        }
+
+                    }
+
+                    newEqSets.add(tmp);
+                }
+            }
+        }
+
+        if(eqSets.size() == newEqSets.size())
+            return newEqSets;
+        else
+            return calculeEqSets(min, newEqSets);
+    }
+    
+    private static Set<State> getFertileStates(Automaton afd){
+        if(!afd.isAFD()) {
+            afd = determinize(afd);
+        }
+                
+        Set<State> fertileStates = new HashSet<>();
+	Set<State> toAdd;
+		
+	fertileStates.addAll(afd.getFinalStates());
+		
+	do{
+	toAdd = new HashSet<>();
+	for(State s : fertileStates)
+            toAdd.addAll(afd.getAllPreviousStates(s));
+	}while(fertileStates.addAll(toAdd));
+		
+	return fertileStates;
+    }
+	
+    
+    public static Automaton minimize(Automaton afd) {
+        if (afd.isMim) {
+            return afd;
+        }
+        
+        if(!afd.isAFD())
+            afd = determinize(afd);
+        
+        Set<State> fertile = getFertileStates(afd);
+        ArrayList<State> toRemove = new ArrayList<>();
+        
+        for(State s : afd.getStates())
+                if(!fertile.contains(s))
+                        toRemove.add(s);
+
+        if(!toRemove.isEmpty()){
+            for(State s : toRemove) {
+                afd.getTransitions().removeTransitionsByState(s);
+		afd.getStates().remove(s);
+		afd.getFinalStates().remove(s);
+		
+                if(s.equals(afd.getInitialState())) {
+                    afd.setInitialState(null);
+                }		
+            }                
+        }
+
+        if(afd.getInitialState() == null) {
+            afd.setId(afd.getId()+"#vazia");
+            afd.setIsEmpty(true);
+            
+            return afd;
+        }
+                
+        ArrayList<ArrayList<State>> equivalentsSets = new ArrayList<>();
+
+        equivalentsSets.add(afd.getFinalStates());
+        ArrayList<State> tmp = afd.getNotFinalStates();
+        
+        if(tmp.size() > 0)  {
+            equivalentsSets.add(tmp);
+        }
+                
+        equivalentsSets = calculeEqSets(afd, equivalentsSets);	
+
+        Automaton min = new Automaton(new ArrayList<>(), afd.getAlphabet(), 
+				new Transitions(), null, new ArrayList<>());
+        
+        HashMap<State, ArrayList<State>> states = new HashMap<>();
+
+        State tmpState;
+        ArrayList<State> set;
+        
+        for(int i = 0; i<equivalentsSets.size(); i++){
+            set = equivalentsSets.get(i);
+            
+            if(!set.get(0).getName().contains("[ERRO]")){
+                    tmpState = new State("Q"+i);
+                    states.put(tmpState, set);
+            }
+        }
+
+        int nSet;
+        State tmpState2;
+        
+        for(State s : states.keySet()){
+                min.getStates().add(s);
+                for(State s2 : states.get(s)){
+                        if(afd.getFinalStates().contains(s2)) {
+                            min.getFinalStates().add(s);
+                        }
+                                
+                        if(afd.getInitialState().equals(s2)) {
+                            min.setInitialState(s);
+                        }
+                                
+                }
+        }
+
+        for(State s : states.keySet()){
+                tmpState = states.get(s).get(0);
+                for(char c : min.getAlphabet()){
+                        nSet = getEquivalentSet(equivalentsSets, 
+                                afd.getTransitions().getNextStates(tmpState, c).get(0));
+                        
+                        if(nSet != -1){
+                                tmpState2 = min.getState("Q"+nSet);
+                                if(tmpState2 != null) {
+                                    min.getTransitions().addTransition(s, c, tmpState2);
+                                }
+                                        
+                        }
+                }
+        }
+
+
+        min.setId(afd.getId()+ "#Minimo");
+        min.setIsMim(true);
+        
+        return min;
     }
 }
