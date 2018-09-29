@@ -142,11 +142,12 @@ public class PopupEditionRegex extends javax.swing.JFrame {
             this.hide();
 
         } else {
-            app.displayError("Nome inválido: Existe outra gramatica com mesmo nome.");
+            app.displayError("Nome inválido: Existe outra objeto com mesmo nome.");
         }        // TODO add your handling code here:
     }//GEN-LAST:event_saveChangesButtonActionPerformed
 
     public void showEdit(String id, String regexString) {
+        clearInputs();
         nameInput.setText(id);
         regexInput.setText(regexString);
         this.editing = true;

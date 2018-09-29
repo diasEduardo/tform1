@@ -1,0 +1,5 @@
+
+estados
+        se for inicial iniciar com '->'
+        se for final iniciar com '*'
+        se for final e incial iniciar com '*->'
