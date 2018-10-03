@@ -39,6 +39,7 @@ public class PopupEditionRegex extends javax.swing.JFrame {
         saveChangesButton = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         regexInput = new javax.swing.JTextArea();
+        jLabel3 = new javax.swing.JLabel();
 
         setTitle("Inserir Gramática");
 
@@ -72,6 +73,8 @@ public class PopupEditionRegex extends javax.swing.JFrame {
         regexInput.setRows(5);
         jScrollPane1.setViewportView(regexInput);
 
+        jLabel3.setText("Usar  'ε' p/ epson");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -90,7 +93,8 @@ public class PopupEditionRegex extends javax.swing.JFrame {
                                 .addComponent(jLabel1)
                                 .addComponent(jLabel2))
                             .addGap(15, 15, 15)))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 293, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 293, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3))
                 .addContainerGap(23, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -108,7 +112,9 @@ public class PopupEditionRegex extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cancelButton)
                     .addComponent(saveChangesButton))
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel3)
+                .addContainerGap(22, Short.MAX_VALUE))
         );
 
         pack();
@@ -159,6 +165,7 @@ public class PopupEditionRegex extends javax.swing.JFrame {
     private javax.swing.JButton cancelButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField nameInput;
     private javax.swing.JTextArea regexInput;

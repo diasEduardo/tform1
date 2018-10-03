@@ -47,7 +47,7 @@
                   </Group>
                   <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                   <Component id="removeButton" alignment="0" min="-2" pref="253" max="-2" attributes="0"/>
-                  <Component id="addAutomatonButton" min="-2" pref="187" max="-2" attributes="0"/>
+                  <Component id="addAutomatonButton" linkSize="1" min="-2" pref="187" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
               <Component id="jSeparator2" min="-2" max="-2" attributes="0"/>
