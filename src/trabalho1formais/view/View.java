@@ -8,6 +8,7 @@ package trabalho1formais.view;
 import trabalho1formais.App;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
+import trabalho1formais.model.automaton.Automaton;
 import trabalho1formais.model.automaton.ViewTable;
 
 /**
@@ -27,6 +28,7 @@ public class View extends javax.swing.JFrame {
         initComponents();
         popupEditionGrammar = new PopupEditionGrammar(app);
         popupEditionRegex = new PopupEditionRegex(app);
+        popupEditionAutomaton = new PopupEditionAutomaton(app);
     }
     
     
@@ -67,6 +69,7 @@ public class View extends javax.swing.JFrame {
         editItem = new javax.swing.JButton();
         removeButton = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
+        addAutomatonButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Trabalho 1");
@@ -95,14 +98,14 @@ public class View extends javax.swing.JFrame {
 
         jSeparator2.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
-        minimizeAutomaton.setText("Minimizar");
+        minimizeAutomaton.setText("Minimizar AFD");
         minimizeAutomaton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 minimizeAutomatonActionPerformed(evt);
             }
         });
 
-        jButton4.setText("Converter Para AFND");
+        jButton4.setText("Converter GR Para AFND");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton4ActionPerformed(evt);
@@ -154,6 +157,13 @@ public class View extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("Ubuntu", 0, 12)); // NOI18N
         jLabel4.setText("Selecione 2 Itens");
 
+        addAutomatonButton.setText("Inserir Automato Finito");
+        addAutomatonButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addAutomatonButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -175,7 +185,8 @@ public class View extends javax.swing.JFrame {
                             .addComponent(editItem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGap(5, 5, 5)))
                     .addComponent(jLabel2)
-                    .addComponent(removeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(removeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(addAutomatonButton, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(33, 33, 33)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -197,7 +208,7 @@ public class View extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 378, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(32, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(22, 22, 22)
@@ -217,7 +228,9 @@ public class View extends javax.swing.JFrame {
                         .addGroup(layout.createSequentialGroup()
                             .addGap(74, 74, 74)
                             .addComponent(addRegexButton)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addGap(18, 18, 18)
+                            .addComponent(addAutomatonButton)
+                            .addGap(18, 18, 18)
                             .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(jLabel1)
@@ -256,7 +269,7 @@ public class View extends javax.swing.JFrame {
                 .addGroup(layout.createSequentialGroup()
                     .addGap(33, 33, 33)
                     .addComponent(addGramarButton)
-                    .addContainerGap(544, Short.MAX_VALUE)))
+                    .addContainerGap(550, Short.MAX_VALUE)))
         );
 
         pack();
@@ -306,6 +319,11 @@ public class View extends javax.swing.JFrame {
                 popupEditionRegex.showEdit(app.getRegex(id).getId(),
                         app.getRegex(id).getRegex());
             }
+        } else if ("AFND".equals(type) || "AFD".equals(type)) {
+            if (app.getAutomaton(id) != null) {
+                popupEditionAutomaton.showEdit(app.getAutomaton(id).getId(),
+                        Automaton.toTable(app.getAutomaton(id)),app.getAutomaton(id).getAlphabet() );
+            }
         } else {
 //           
         }
@@ -314,6 +332,10 @@ public class View extends javax.swing.JFrame {
     private void removeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeButtonActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_removeButtonActionPerformed
+
+    private void addAutomatonButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addAutomatonButtonActionPerformed
+        popupEditionAutomaton.show();
+    }//GEN-LAST:event_addAutomatonButtonActionPerformed
     
     public void updateTable(ViewTable vt) {
         jTable1.setModel(new javax.swing.table
@@ -336,7 +358,9 @@ public class View extends javax.swing.JFrame {
 
     private PopupEditionGrammar popupEditionGrammar;
     private PopupEditionRegex popupEditionRegex;
+    private PopupEditionAutomaton popupEditionAutomaton;
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton addAutomatonButton;
     private javax.swing.JButton addGramarButton;
     private javax.swing.JButton addRegexButton;
     private javax.swing.JButton editItem;

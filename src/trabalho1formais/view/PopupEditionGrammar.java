@@ -143,10 +143,11 @@ public class PopupEditionGrammar extends javax.swing.JFrame {
             this.hide();
 
         } else {
-            app.displayError("Nome inválido: Existe outra gramatica com mesmo nome.");
+            app.displayError("Nome inválido: Existe outra objeto com mesmo nome.");
         }
     }//GEN-LAST:event_saveChangesButtonActionPerformed
     public void showEdit(String id, String grammarString) {
+        clearInputs();
         nameInput.setText(id);
         gramarInput.setText(grammarString);
         this.editing = true;

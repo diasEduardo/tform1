@@ -188,9 +188,7 @@ public class Grammar extends Regular {
         }
         
         Automaton at =  new Automaton(automatonStates, grammar.getVt(), 
-                transitions, initialState, automatonFStates);
-        
-        at.setId(id + "#" + at.getId());
+                transitions, initialState, automatonFStates,id+"#AFND","AFND");
         
         return at;
     }
