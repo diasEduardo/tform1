@@ -57,7 +57,7 @@ public class View extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jSeparator2 = new javax.swing.JSeparator();
-        minimizeAutomaton = new javax.swing.JButton();
+        determinizeAutomaton = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jSeparator3 = new javax.swing.JSeparator();
         jButton5 = new javax.swing.JButton();
@@ -70,6 +70,7 @@ public class View extends javax.swing.JFrame {
         removeButton = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         addAutomatonButton = new javax.swing.JButton();
+        minimizeAutomaton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Trabalho 1");
@@ -98,10 +99,10 @@ public class View extends javax.swing.JFrame {
 
         jSeparator2.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
-        minimizeAutomaton.setText("Minimizar AFD");
-        minimizeAutomaton.addActionListener(new java.awt.event.ActionListener() {
+        determinizeAutomaton.setText("Determinizar AFND");
+        determinizeAutomaton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                minimizeAutomatonActionPerformed(evt);
+                determinizeAutomatonActionPerformed(evt);
             }
         });
 
@@ -164,6 +165,13 @@ public class View extends javax.swing.JFrame {
             }
         });
 
+        minimizeAutomaton.setText("Minimizar AFD");
+        minimizeAutomaton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                minimizeAutomatonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -185,8 +193,8 @@ public class View extends javax.swing.JFrame {
                             .addComponent(editItem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGap(5, 5, 5)))
                     .addComponent(jLabel2)
-                    .addComponent(removeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(addAutomatonButton, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(addAutomatonButton, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(removeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(33, 33, 33)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -194,10 +202,11 @@ public class View extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(minimizeAutomaton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(determinizeAutomaton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jSeparator3)
                                 .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, 153, Short.MAX_VALUE))
+                                .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, 153, Short.MAX_VALUE)
+                                .addComponent(minimizeAutomaton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addComponent(jButton4)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(38, 38, 38)
@@ -218,7 +227,7 @@ public class View extends javax.swing.JFrame {
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {addGramarButton, addRegexButton});
 
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jButton4, jButton5, jButton6, minimizeAutomaton});
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {determinizeAutomaton, jButton4, jButton5, jButton6});
 
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -246,8 +255,10 @@ public class View extends javax.swing.JFrame {
                             .addGap(37, 37, 37)
                             .addComponent(jButton4)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(determinizeAutomaton)
+                            .addGap(11, 11, 11)
                             .addComponent(minimizeAutomaton)
-                            .addGap(50, 50, 50)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                             .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGap(24, 24, 24)
                             .addComponent(jButton5)
@@ -264,7 +275,7 @@ public class View extends javax.swing.JFrame {
                         .addComponent(jLabel3)
                         .addGap(31, 31, 31)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(32, Short.MAX_VALUE))
+                .addContainerGap(36, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(33, 33, 33)
@@ -283,9 +294,9 @@ public class View extends javax.swing.JFrame {
         popupEditionGrammar.show();
     }//GEN-LAST:event_addGramarButtonActionPerformed
 
-    private void minimizeAutomatonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_minimizeAutomatonActionPerformed
-        app.minimize(getSelected());
-    }//GEN-LAST:event_minimizeAutomatonActionPerformed
+    private void determinizeAutomatonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_determinizeAutomatonActionPerformed
+        app.determinize(getSelected());
+    }//GEN-LAST:event_determinizeAutomatonActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         app.convertToAutomaton(getSelected());
@@ -330,12 +341,16 @@ public class View extends javax.swing.JFrame {
     }//GEN-LAST:event_editItemActionPerformed
 
     private void removeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeButtonActionPerformed
-        // TODO add your handling code here:
+            app.removeID(getSelected());        // TODO add your handling code here:
     }//GEN-LAST:event_removeButtonActionPerformed
 
     private void addAutomatonButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addAutomatonButtonActionPerformed
         popupEditionAutomaton.show();
     }//GEN-LAST:event_addAutomatonButtonActionPerformed
+
+    private void minimizeAutomatonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_minimizeAutomatonActionPerformed
+        app.minimize(getSelected());
+    }//GEN-LAST:event_minimizeAutomatonActionPerformed
     
     public void updateTable(ViewTable vt) {
         jTable1.setModel(new javax.swing.table
@@ -363,6 +378,7 @@ public class View extends javax.swing.JFrame {
     private javax.swing.JButton addAutomatonButton;
     private javax.swing.JButton addGramarButton;
     private javax.swing.JButton addRegexButton;
+    private javax.swing.JButton determinizeAutomaton;
     private javax.swing.JButton editItem;
     private javax.swing.JList<String> grammarNregexList;
     private javax.swing.JButton jButton4;

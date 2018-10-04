@@ -12,7 +12,8 @@ import trabalho1formais.model.regex.Regex;
 
 /**
  *
- * @author nathan
+ * @author nathan S->aA|bB A->a|aA B->bB|b
+ *
  */
 public class App {
 
@@ -35,25 +36,49 @@ public class App {
             at = Grammar.convertToAutomaton(grammar);
             regularMap.put(at.getId(), at);
             view.updateRegularList(at.getId() + " - " + at.getType());
-        }else{
-         at = getAutomaton(grammar.getId() + "#AFND");
+        } else {
+            at = getAutomaton(grammar.getId() + "#AFND");
         }
-        
+
         view.updateTable(Automaton.toTable(at));
-            
+
     }
 
     private void convertRegexToAT(Regex regex) {
 //        TODO
     }
 
-    public void minimize(String id) {
+    public void determinize(String id) {
         Regular reg = regularMap.get(id);
-        if (reg.getType().equals("AFD") || reg.getType().equals("AFND")){
-            Automaton afd = Automaton.minimize((Automaton) reg);
+        if (reg.getType().equals("AFND")) {
+            Automaton afd = Automaton.determinize((Automaton) reg);
+            if (!regularMap.containsKey(afd.getId())) {
+                view.updateRegularList(afd.getId() + " - " + afd.getType());
+            }
             regularMap.put(afd.getId(), afd);
             view.updateTable(Automaton.toTable(afd));
-            view.updateRegularList(afd.getId());
+
+        }
+    }
+
+    public void minimize(String id) {
+        Regular reg = regularMap.get(id);
+        if ((reg.getType().equals("AFD") || reg.getType().equals("AFND"))) {
+            Automaton af = (Automaton) reg;
+            if (!af.isAFD()) {
+                determinize(af.getId());
+                af = (Automaton) regularMap.get(af.getId() + "#AFD");
+            }
+            Automaton afd =af;
+            if (!af.isIsMim()) {
+                afd = Automaton.minimize(af);
+            }
+            if (!regularMap.containsKey(afd.getId())) {
+                view.updateRegularList(afd.getId() + " - " + afd.getType());
+            }
+            regularMap.put(afd.getId(), afd);
+            view.updateTable(Automaton.toTable(afd));
+
         }
     }
 
@@ -84,7 +109,7 @@ public class App {
             view.displayError("Expressão Regular Incorreta.");
         }
     }
-    
+
     public void addNewAF(String id, DefaultTableModel tableModel) {
         Automaton newAutomaton = Automaton.parseAutomatonInput(id, tableModel);
 
@@ -98,6 +123,7 @@ public class App {
             view.displayError("Automato Incorreta.");
         }
     }
+
     public void convertToAutomaton(String id) {
         Regular reg = regularMap.get(id);
 
@@ -115,7 +141,7 @@ public class App {
     public Regex getRegex(String id) {
         return (Regex) regularMap.get(id);
     }
-    
+
     public Automaton getAutomaton(String id) {
         return (Automaton) regularMap.get(id);
     }
@@ -132,7 +158,5 @@ public class App {
     public void displayError(String msg) {
         view.displayError(msg);
     }
-
-    
 
 }
