@@ -641,7 +641,7 @@ public class Automaton extends Regular {
         HashMap<String, String> rename = new HashMap<String, String>();
         for (State s : afd.getStates()) {
             String temp = "";
-            String sName = s.getName();
+            String sName = s.getName().toUpperCase();
             if (!rename.containsKey(sName)) {
                 rename.put(sName, clearName(sName, rename));
             }
@@ -655,14 +655,14 @@ public class Automaton extends Regular {
                     continue;
                 }
                 State state = states.get(0);
-                String stName = state.getName();
+                String stName = state.getName().toUpperCase();
                 if (!rename.containsKey(stName)) {
                     rename.put(stName, clearName(stName, rename));
                 }
                 temp += alpha + rename.get(stName) + "|";
 
                 for (State sta : afd.getFinalStates()) {
-                    if (sta.getName().equals(state.getName())) {
+                    if (sta.getName().toUpperCase().equals(state.getName().toUpperCase())) {
                         temp += alpha + "|";
                     }
                 }
