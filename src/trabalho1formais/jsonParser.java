@@ -19,6 +19,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Reader;
 import static java.time.Clock.system;
+import java.util.ArrayList;
 import java.util.Map.Entry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -96,20 +97,27 @@ public class jsonParser {
                 por algum motivo o gson não consegue tratar as transições, mesmo que o json criado esteja em um formato valido
                  */
                 JsonParser parser = new JsonParser();
-
+                //cria um obj json para fazer o parser gson     
                 Transitions tempTransitions = new Transitions();
                 String jsonInString = gson.toJson(tempTransitions);
                 JsonObject tempTransitionsJson = (JsonObject) parser.parse(jsonInString);
-
+                //substitui a sub arvore de transitions
                 JsonObject atJson = (JsonObject) parser.parse(json);
                 JsonElement transitionsJson = atJson.get("transitions");
                 atJson.remove("transitions");
                 atJson.add("transitions", tempTransitionsJson);
-                tempTransitions = parseTransitions(transitionsJson);
                 reg = gson.fromJson(atJson, Automaton.class);
-
+                //obtem as transições e faz o link entre estados
                 Automaton at = (Automaton) reg;
+                tempTransitions = parseTransitions(transitionsJson, at);
                 at.setTransitions(tempTransitions);
+                at.setInitialState(at.getState(at.getInitialState().getName()));
+                ArrayList<State> finalStates = new ArrayList<State>();
+                for (State old : at.getFinalStates()) {
+                    State s = at.getState(old.getName());
+                    finalStates.add(s);
+                }
+                at.setFinalStates(finalStates);
                 reg = at;
                 int a2 = 1;
             }
@@ -129,7 +137,7 @@ public class jsonParser {
         return reg;
     }
 
-    private static Transitions parseTransitions(JsonElement transitionsJson) {
+    private static Transitions parseTransitions(JsonElement transitionsJson, Automaton at) {
         Transitions transitions = new Transitions();
         JsonObject obj = transitionsJson.getAsJsonObject();
         for (Entry<String, JsonElement> root : obj.entrySet()) {
@@ -138,7 +146,7 @@ public class jsonParser {
             JsonObject obj1 = transitions1.getAsJsonObject();
             for (Entry<String, JsonElement> level1 : obj1.entrySet()) {
                 String current = level1.getKey();
-                State currentS = new State(current);
+                State currentS = at.getState(current);
                 JsonElement alphaNext = level1.getValue();
                 JsonObject obj2 = alphaNext.getAsJsonObject();
                 for (Entry<String, JsonElement> level2 : obj2.entrySet()) {
@@ -149,7 +157,7 @@ public class jsonParser {
                         System.out.print(current + " -");
                         System.out.print(alpha + " - ");
                         System.out.print(nextState + "\n");
-                        State nextS = new State(nextState);
+                        State nextS = at.getState(nextState);
                         transitions.addTransition(currentS, alpha.toCharArray()[0], nextS);
                     }
                 }
