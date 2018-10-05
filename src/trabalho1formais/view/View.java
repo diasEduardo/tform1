@@ -5,8 +5,10 @@
  */
 package trabalho1formais.view;
 
+import java.io.File;
 import trabalho1formais.App;
 import javax.swing.DefaultListModel;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import trabalho1formais.model.automaton.Automaton;
 import trabalho1formais.model.automaton.ViewTable;
@@ -30,13 +32,12 @@ public class View extends javax.swing.JFrame {
         popupEditionRegex = new PopupEditionRegex(app);
         popupEditionAutomaton = new PopupEditionAutomaton(app);
     }
-    
-    
-    private String getSelected () {
+
+    private String getSelected() {
         String selected = grammarNregexList.getSelectedValue();
         String splitedId[] = selected.split(" - ");
         String id = splitedId[0];
-     
+
         return id;
     }
 
@@ -71,6 +72,7 @@ public class View extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         addAutomatonButton = new javax.swing.JButton();
         minimizeAutomaton = new javax.swing.JButton();
+        loadButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Trabalho 1");
@@ -172,6 +174,13 @@ public class View extends javax.swing.JFrame {
             }
         });
 
+        loadButton.setText("Carregar JSON");
+        loadButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                loadButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -194,7 +203,8 @@ public class View extends javax.swing.JFrame {
                             .addGap(5, 5, 5)))
                     .addComponent(jLabel2)
                     .addComponent(addAutomatonButton, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(removeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(removeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(loadButton, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(33, 33, 33)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -232,49 +242,52 @@ public class View extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(74, 74, 74)
-                            .addComponent(addRegexButton)
-                            .addGap(18, 18, 18)
-                            .addComponent(addAutomatonButton)
-                            .addGap(18, 18, 18)
-                            .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jLabel1)
-                            .addGap(18, 18, 18)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(editItem)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(removeButton))
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(37, 37, 37)
-                            .addComponent(jButton4)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(determinizeAutomaton)
-                            .addGap(11, 11, 11)
-                            .addComponent(minimizeAutomaton)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(24, 24, 24)
-                            .addComponent(jButton5)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(jButton6)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(jLabel4))
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(21, 21, 21)
-                            .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 553, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 553, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addGap(35, 35, 35)
-                        .addComponent(jLabel3)
-                        .addGap(31, 31, 31)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(37, 37, 37)
+                                .addComponent(jButton4)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(determinizeAutomaton)
+                                .addGap(11, 11, 11)
+                                .addComponent(minimizeAutomaton)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(24, 24, 24)
+                                .addComponent(jButton5)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jButton6)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel4))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(21, 21, 21)
+                                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 553, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 553, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                            .addGap(35, 35, 35)
+                            .addComponent(jLabel3)
+                            .addGap(31, 31, 31)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(74, 74, 74)
+                        .addComponent(addRegexButton)
+                        .addGap(12, 12, 12)
+                        .addComponent(addAutomatonButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(loadButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel1)
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(editItem)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(removeButton)))
                 .addContainerGap(36, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
@@ -333,7 +346,7 @@ public class View extends javax.swing.JFrame {
         } else if ("AFND".equals(type) || "AFD".equals(type)) {
             if (app.getAutomaton(id) != null) {
                 popupEditionAutomaton.showEdit(app.getAutomaton(id).getId(),
-                        Automaton.toTable(app.getAutomaton(id)),app.getAutomaton(id).getAlphabet() );
+                        Automaton.toTable(app.getAutomaton(id)), app.getAutomaton(id).getAlphabet());
             }
         } else {
 //           
@@ -341,7 +354,7 @@ public class View extends javax.swing.JFrame {
     }//GEN-LAST:event_editItemActionPerformed
 
     private void removeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeButtonActionPerformed
-            app.removeID(getSelected());        // TODO add your handling code here:
+        app.removeID(getSelected());        // TODO add your handling code here:
     }//GEN-LAST:event_removeButtonActionPerformed
 
     private void addAutomatonButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addAutomatonButtonActionPerformed
@@ -351,11 +364,24 @@ public class View extends javax.swing.JFrame {
     private void minimizeAutomatonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_minimizeAutomatonActionPerformed
         app.minimize(getSelected());
     }//GEN-LAST:event_minimizeAutomatonActionPerformed
-    
+
+    private void loadButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadButtonActionPerformed
+        final JFileChooser fc = new JFileChooser();
+        File workingDirectory = new File(System.getProperty("user.dir"));
+        fc.setCurrentDirectory(workingDirectory);
+        int returnVal = fc.showOpenDialog(this);
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            File file = fc.getSelectedFile();
+            app.load(file);
+            int a = 1;
+        }
+
+    }//GEN-LAST:event_loadButtonActionPerformed
+
     public void updateTable(ViewTable vt) {
-        jTable1.setModel(new javax.swing.table
-                .DefaultTableModel(vt.getData(), vt.getColumn()));
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(vt.getData(), vt.getColumn()));
     }
+
     public void updateRegularList(String text) {
         listModel.addElement(text);
     }
@@ -395,6 +421,7 @@ public class View extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JSeparator jSeparator4;
     private javax.swing.JTable jTable1;
+    private javax.swing.JButton loadButton;
     private javax.swing.JButton minimizeAutomaton;
     private javax.swing.JButton removeButton;
     // End of variables declaration//GEN-END:variables
