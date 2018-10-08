@@ -10,6 +10,7 @@ import trabalho1formais.App;
 import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import trabalho1formais.jsonParser;
 import trabalho1formais.model.automaton.Automaton;
 import trabalho1formais.model.automaton.ViewTable;
 
@@ -367,7 +368,8 @@ public class View extends javax.swing.JFrame {
 
     private void loadButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadButtonActionPerformed
         final JFileChooser fc = new JFileChooser();
-        File workingDirectory = new File(System.getProperty("user.dir"));
+        File workingDirectory = new File(System.getProperty("user.dir")
+                .concat("/" + jsonParser.jsonPath));
         fc.setCurrentDirectory(workingDirectory);
         int returnVal = fc.showOpenDialog(this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {

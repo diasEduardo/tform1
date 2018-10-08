@@ -36,6 +36,8 @@ import trabalho1formais.model.regex.Regex;
  * @author eduardo
  */
 public class jsonParser {
+    
+    public static String jsonPath = "jsons/";
 
     public static void objectToJSON(Regular obj) {
         Gson gson = new Gson();
@@ -57,7 +59,7 @@ public class jsonParser {
 
         try {
             // 1. Java object to JSON, and save into a file
-            gson.toJson(obj, new FileWriter(fileName + ".json", true));
+            gson.toJson(obj, new FileWriter(jsonPath.concat(fileName) + ".json", true));
         } catch (IOException ex) {
             Logger.getLogger(jsonParser.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -80,6 +82,7 @@ public class jsonParser {
         BufferedReader br = null;
         Gson gson = new Gson();
         Regular reg = null;
+        
         try {
             String json = "";
             File file = new File(path);
@@ -88,6 +91,7 @@ public class jsonParser {
             while ((st = br.readLine()) != null) {
                 json += st.replaceAll("\n", "");
             }
+            
             if (json.contains("\"jsonType\":\"GR\"")) {
                 reg = gson.fromJson(json, Grammar.class);
             } else if (json.contains("\"jsonType\":\"ER\"")) {
