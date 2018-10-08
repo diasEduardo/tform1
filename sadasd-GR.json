@@ -1,0 +1,1 @@
+{"Vn":["S"],"Vt":["a","b"],"productions":[{"current":"S","generated":"a","next":"$"},{"current":"S","generated":"b","next":"$"}],"initialSimbol":"S","serializedGrammar":"S-\u003ea|b\n","id":"sadasd","type":"GR","jsonType":"GR"}

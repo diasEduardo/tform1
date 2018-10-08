@@ -1,5 +1,6 @@
 package trabalho1formais;
 
+import java.io.File;
 import java.util.ArrayList;
 import model.Regular;
 import java.util.HashMap;
@@ -34,6 +35,7 @@ public class App {
         Automaton at;
         if (!regularMap.containsKey(grammar.getId() + "#AFND")) {
             at = Grammar.convertToAutomaton(grammar);
+            jsonParser.objectToJSON(at);
             regularMap.put(at.getId(), at);
             view.updateRegularList(at.getId() + " - " + at.getType());
         } else {
@@ -55,6 +57,7 @@ public class App {
             if (!regularMap.containsKey(afd.getId())) {
                 view.updateRegularList(afd.getId() + " - " + afd.getType());
             }
+            jsonParser.objectToJSON(afd);
             regularMap.put(afd.getId(), afd);
             view.updateTable(Automaton.toTable(afd));
 
@@ -69,13 +72,14 @@ public class App {
                 determinize(af.getId());
                 af = (Automaton) regularMap.get(af.getId() + "#AFD");
             }
-            Automaton afd =af;
+            Automaton afd = af;
             if (!af.isIsMim()) {
                 afd = Automaton.minimize(af);
             }
             if (!regularMap.containsKey(afd.getId())) {
                 view.updateRegularList(afd.getId() + " - " + afd.getType());
             }
+            jsonParser.objectToJSON(afd);
             regularMap.put(afd.getId(), afd);
             view.updateTable(Automaton.toTable(afd));
 
@@ -89,7 +93,7 @@ public class App {
             if (!regularMap.containsKey(id)) {
                 view.updateRegularList(id + " - " + newgrammar.getType());
             }
-
+            jsonParser.objectToJSON(newgrammar);
             regularMap.put(id, newgrammar);
         } else {
             view.displayError("Gramática Incorreta.");
@@ -103,7 +107,7 @@ public class App {
             if (!regularMap.containsKey(id)) {
                 view.updateRegularList(id + " - " + newregex.getType());
             }
-
+            jsonParser.objectToJSON(newregex);
             regularMap.put(id, newregex);
         } else {
             view.displayError("Expressão Regular Incorreta.");
@@ -117,7 +121,7 @@ public class App {
             if (!regularMap.containsKey(id)) {
                 view.updateRegularList(id + " - " + newAutomaton.getType());
             }
-
+            jsonParser.objectToJSON(newAutomaton);
             regularMap.put(id, newAutomaton);
         } else {
             view.displayError("Automato Incorreta.");
@@ -157,6 +161,39 @@ public class App {
 
     public void displayError(String msg) {
         view.displayError(msg);
+    }
+
+    public void load(File file) {
+        String path = file.getAbsolutePath();
+        if (!path.contains(".json")) {
+            displayError("o arquivo não pode ser carregado");
+        } else {
+            Regular reg = jsonParser.jsonToObject(path);
+            String id = "";
+            String type = reg.getType();
+            if (type.equals("GR")) {
+                Grammar object = (Grammar) reg;
+                id = object.getId();
+            } else if (type.equals("ER")) {
+                Regex object = (Regex) reg;
+                id = object.getId();
+            } else if (type.equals("AFD") || type.equals("AFND")) {
+                Automaton object = (Automaton) reg;
+                id = object.getId();
+            }
+            if (!regularMap.containsKey(id)) {
+                view.updateRegularList(id + " - " + type);
+            } else {
+                int k = 1;
+                while (regularMap.containsKey(id + k)) {
+                    k++;
+                }
+                id = id + k;
+                view.updateRegularList(id + " - " + type);
+            }
+            regularMap.put(id, reg);
+            int a = 0;
+        }
     }
 
 }
