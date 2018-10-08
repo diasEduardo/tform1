@@ -48,6 +48,19 @@ public class App {
 
     private void convertRegexToAT(Regex regex) {
 //        TODO
+    	Automaton at;
+    	
+    	if (!regularMap.containsKey(regex.getId() + "#AFND")) {
+            at = Regex.convertToAutomaton(regex);
+            regularMap.put(at.getId(), at);
+            view.updateRegularList(at.getId() + " - " + at.getType());
+        } else {
+            at = getAutomaton(regex.getId() + "#AFND");
+        }
+
+        view.updateTable(Automaton.toTable(at));
+    	
+    	
     }
 
     public void determinize(String id) {

@@ -216,6 +216,16 @@ public class Automaton extends Regular {
 
         return result;
     }
+    public ArrayList<State> getNextStates(State current,char t) {
+        ArrayList<State> result = new ArrayList<>();
+
+        for (char c : alphabet) {
+        	if(c == t)
+        		result.addAll(transitions.getNextStates(current, c));
+        }
+
+        return result;
+    }
 
     public ArrayList<State> getAllPreviousStates(State current) {
         ArrayList<State> result = new ArrayList<>();
@@ -633,5 +643,97 @@ public class Automaton extends Regular {
         }
         return null;
     }
+    
+    public static Automaton union(Automaton a,Automaton b) {
+    	State iniState = new State("novoS");
+    	
+    	ArrayList<State> new_states = new ArrayList();
+    	new_states.add(iniState);
+    	new_states.addAll(a.getStates());
+    	new_states.addAll(b.getStates());
+    	
+        
+        Transitions new_transitions = new Transitions();
+        new_transitions.addTransitions(a.getTransitions());
+        new_transitions.addTransitions(b.getTransitions());
+        new_transitions.addTransition(iniState, epilsonSimbol, a.getInitialState());
+        new_transitions.addTransition(iniState, epilsonSimbol, b.getInitialState());
+        
+        
+        
+        ArrayList<State> fStates = new ArrayList();
+        fStates.addAll(a.getFinalStates());
+        fStates.addAll(b.getFinalStates());
+        String new_id = a.getId()+'U'+b.getId();
+
+    	
+        Automaton at =  new Automaton(new_states, a.getAlphabet(),new_transitions, iniState, fStates,new_id,"AFND");
+    	return at;
+    }
+    
+    
+    public static Automaton intersection(Automaton afd1, Automaton afd2){
+		afd1 = complement(afd1);
+		afd2 = complement(afd2);
+		Automaton inter = union(afd1, afd2);
+		inter = complement(inter);
+		return inter;//minimize(inter);
+	}
+    
+    public void addTransition(State current, char trigger, State next){
+		if(!states.contains(current) || 
+				!alphabet.contains(trigger))
+			return;
+		
+		transitions.addTransition(current, trigger, next);
+	}
+    public void addState(State s){
+		if(!states.contains(s))
+			states.add(s);
+	}
+    
+    private static Automaton complete(Automaton afd){
+		/*if(afd.getExtras().contains("Complete"))
+			return afd;*/
+		
+		afd = determinize(afd);
+		
+		State err = new State("[ERRO]");
+		boolean edited = false;
+		
+		for(State s : afd.getStates()){
+			for(char c : afd.getAlphabet()){
+				if(afd.getNextStates(s, c).isEmpty()){
+					afd.addTransition(s, c, err);
+					edited = true;
+				}
+			}
+		}
+		
+		if(edited){
+			afd.addState(err);
+			for(char c : afd.getAlphabet())
+				afd.addTransition(err, c, err);
+		}
+		return afd;
+	}
+
+    
+    public static Automaton complement(Automaton af){
+		/*if(af.getExtras().contains("AFD_Comp"))
+			return af;*/
+		
+		Automaton comp;
+		
+		if(!af.isAFD())
+			comp = determinize(af);
+		else
+			comp = af;
+		
+		comp = complete(comp);
+		comp.setFinalStates(comp.getNotFinalStates());
+		
+		return comp;
+	}
 
 }
