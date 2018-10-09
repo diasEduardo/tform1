@@ -31,8 +31,8 @@ public class Automaton extends Regular {
     //private static int automatosCount = 0;
 
     public Automaton(ArrayList<State> states, ArrayList<Character> alphabet,
-            Transitions transitions, State initialState, ArrayList<State> finalStates, String id, String type) {
-        super(type);
+            Transitions transitions, State initialState, ArrayList<State> finalStates, String id) {
+        super("AUTOMATON");
         this.id = id;
         this.alphabet = alphabet;
         this.initialState = initialState;
@@ -317,7 +317,7 @@ public class Automaton extends Regular {
         HashMap<State, Set<State>> fechos = af.getEpsilonFechos();
 
         Automaton afd = new Automaton(new ArrayList<>(), af.getAlphabet(),
-                new Transitions(), null, new ArrayList<>(), af.getId() + "#AFD", "AFD");
+                new Transitions(), null, new ArrayList<>(), af.getId() + "#AFD");
 
         afd.erraseTransitionsWithSimble(epilsonSimbol);
 
@@ -414,14 +414,14 @@ public class Automaton extends Regular {
     }
 
     public static Automaton minimize(Automaton afd) {
-        if (afd.isMim) {
+        if (afd.isIsMim()) {
             return afd;
         }
 
         if (!afd.isAFD()) {
             afd = determinize(afd);
         }
-        afd = new Automaton(afd.getStates(), afd.getAlphabet(), afd.getTransitions(), afd.getInitialState(), afd.getFinalStates(), afd.getId(), afd.getType());
+        afd = new Automaton(afd.getStates(), afd.getAlphabet(), afd.getTransitions(), afd.getInitialState(), afd.getFinalStates(), afd.getId());
 
         Set<State> fertile = getFertileStates(afd);
         ArrayList<State> toRemove = new ArrayList<>();
@@ -470,7 +470,7 @@ public class Automaton extends Regular {
         equivalentsSets = calculeEqSets(afd, equivalentsSets);
 
         Automaton min = new Automaton(new ArrayList<>(), afd.getAlphabet(),
-                new Transitions(), null, new ArrayList<>(), afd.getId(), afd.getType());
+                new Transitions(), null, new ArrayList<>(), afd.getId());
 
         HashMap<State, ArrayList<State>> states = new HashMap<>();
 
@@ -621,8 +621,8 @@ public class Automaton extends Regular {
 
             }
         }
-        Automaton at = new Automaton(states, alphabet, transitions, initialState, finalStates, id, AFType);
-
+        Automaton at = new Automaton(states, alphabet, transitions, initialState, finalStates, id);
+    
         return at;
     }
 
@@ -651,15 +651,13 @@ public class Automaton extends Regular {
     	new_states.add(iniState);
     	new_states.addAll(a.getStates());
     	new_states.addAll(b.getStates());
-    	
-        
+    	     
         Transitions new_transitions = new Transitions();
         new_transitions.addTransitions(a.getTransitions());
         new_transitions.addTransitions(b.getTransitions());
         new_transitions.addTransition(iniState, epilsonSimbol, a.getInitialState());
         new_transitions.addTransition(iniState, epilsonSimbol, b.getInitialState());
-        
-        
+              
         
         ArrayList<State> fStates = new ArrayList();
         fStates.addAll(a.getFinalStates());
@@ -667,7 +665,7 @@ public class Automaton extends Regular {
         String new_id = a.getId()+'U'+b.getId();
 
     	
-        Automaton at =  new Automaton(new_states, a.getAlphabet(),new_transitions, iniState, fStates,new_id,"AFND");
+        Automaton at =  new Automaton(new_states, a.getAlphabet(),new_transitions, iniState, fStates,new_id);
     	return at;
     }
     

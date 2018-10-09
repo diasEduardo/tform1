@@ -177,7 +177,7 @@ public class Regex extends Regular {
         }
         
         
-        Automaton at =  new Automaton(Dstates, alfa,transitions, initialState, finalStates,exp+"#AFD","AFD");
+        Automaton at =  new Automaton(Dstates, alfa,transitions, initialState, finalStates,exp+"#AFD");
     	return at;
     }
     

@@ -59,8 +59,8 @@
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
                               <Component id="determinizeAutomaton" linkSize="2" max="32767" attributes="0"/>
                               <Component id="jSeparator3" max="32767" attributes="0"/>
-                              <Component id="jButton5" linkSize="2" max="32767" attributes="0"/>
-                              <Component id="jButton6" linkSize="2" alignment="0" pref="153" max="32767" attributes="0"/>
+                              <Component id="unionButton" linkSize="2" max="32767" attributes="0"/>
+                              <Component id="intersectionButton" linkSize="2" alignment="0" pref="153" max="32767" attributes="0"/>
                               <Component id="minimizeAutomaton" alignment="0" max="32767" attributes="0"/>
                           </Group>
                           <Component id="jButton4" linkSize="2" min="-2" max="-2" attributes="0"/>
@@ -105,9 +105,9 @@
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="jSeparator3" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
-                              <Component id="jButton5" min="-2" max="-2" attributes="0"/>
+                              <Component id="unionButton" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="jButton6" min="-2" max="-2" attributes="0"/>
+                              <Component id="intersectionButton" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
                           </Group>
@@ -231,20 +231,20 @@
     </Component>
     <Component class="javax.swing.JSeparator" name="jSeparator3">
     </Component>
-    <Component class="javax.swing.JButton" name="jButton5">
+    <Component class="javax.swing.JButton" name="unionButton">
       <Properties>
         <Property name="text" type="java.lang.String" value="Uni&#xe3;o"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton5ActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="unionButtonActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="jButton6">
+    <Component class="javax.swing.JButton" name="intersectionButton">
       <Properties>
         <Property name="text" type="java.lang.String" value="Interse&#xe7;&#xe3;o"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton6ActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="intersectionButtonActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JSeparator" name="jSeparator4">

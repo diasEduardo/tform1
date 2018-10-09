@@ -64,31 +64,31 @@ public class App {
     }
 
     public void determinize(String id) {
-        Regular reg = regularMap.get(id);
-        if (reg.getType().equals("AFND")) {
-            Automaton afd = Automaton.determinize((Automaton) reg);
+        Automaton at = getAutomaton(id);
+        
+        if (at != null && !at.isAFD()) {
+            Automaton afd = Automaton.determinize(at);
             if (!regularMap.containsKey(afd.getId())) {
                 view.updateRegularList(afd.getId() + " - " + afd.getType());
             }
             jsonParser.objectToJSON(afd);
             regularMap.put(afd.getId(), afd);
             view.updateTable(Automaton.toTable(afd));
-
+        } else {
+            view.displayError("Automato inexistente ou já deterministico.");
         }
     }
 
     public void minimize(String id) {
-        Regular reg = regularMap.get(id);
-        if ((reg.getType().equals("AFD") || reg.getType().equals("AFND"))) {
-            Automaton af = (Automaton) reg;
+        Automaton af = getAutomaton(id);
+        
+        if (af != null && !af.isIsMim()) {
             if (!af.isAFD()) {
                 determinize(af.getId());
                 af = (Automaton) regularMap.get(af.getId() + "#AFD");
             }
-            Automaton afd = af;
-            if (!af.isIsMim()) {
-                afd = Automaton.minimize(af);
-            }
+            Automaton afd = Automaton.minimize(af);
+            
             if (!regularMap.containsKey(afd.getId())) {
                 view.updateRegularList(afd.getId() + " - " + afd.getType());
             }
@@ -96,6 +96,8 @@ public class App {
             regularMap.put(afd.getId(), afd);
             view.updateTable(Automaton.toTable(afd));
 
+        } else {
+            view.displayError("Automato inexistente ou já deterministico.");
         }
     }
 
@@ -148,6 +150,26 @@ public class App {
             convertGrammarToAT((Grammar) reg);
         } else if (reg.getType().equals("ER")) {
             convertRegexToAT((Regex) reg);
+        }
+    }
+    
+    public void union(String id1, String id2) {
+        if (alreadyExists(id1) && alreadyExists(id2)) {
+            Automaton at = Automaton.union(
+                    getAutomaton(id1), getAutomaton(id2));
+            jsonParser.objectToJSON(at);
+            regularMap.put(at.getId(), at);
+            view.updateTable(Automaton.toTable(at));         
+        }
+    }
+    
+    public void intersection(String id1, String id2) {
+        if (alreadyExists(id1) && alreadyExists(id2)) {
+            Automaton at = Automaton.intersection(
+                    getAutomaton(id1), getAutomaton(id2));
+            jsonParser.objectToJSON(at);
+            regularMap.put(at.getId(), at);
+            view.updateTable(Automaton.toTable(at));         
         }
     }
 

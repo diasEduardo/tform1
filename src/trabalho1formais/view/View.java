@@ -41,6 +41,12 @@ public class View extends javax.swing.JFrame {
 
         return id;
     }
+    
+   private String getId(String id) {
+       String splitedId[] = id.split(" - ");
+       
+       return splitedId[0];
+   }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -62,8 +68,8 @@ public class View extends javax.swing.JFrame {
         determinizeAutomaton = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jSeparator3 = new javax.swing.JSeparator();
-        jButton5 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
+        unionButton = new javax.swing.JButton();
+        intersectionButton = new javax.swing.JButton();
         jSeparator4 = new javax.swing.JSeparator();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
@@ -116,17 +122,17 @@ public class View extends javax.swing.JFrame {
             }
         });
 
-        jButton5.setText("União");
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
+        unionButton.setText("União");
+        unionButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
+                unionButtonActionPerformed(evt);
             }
         });
 
-        jButton6.setText("Interseção");
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
+        intersectionButton.setText("Interseção");
+        intersectionButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
+                intersectionButtonActionPerformed(evt);
             }
         });
 
@@ -215,8 +221,8 @@ public class View extends javax.swing.JFrame {
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                 .addComponent(determinizeAutomaton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jSeparator3)
-                                .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, 153, Short.MAX_VALUE)
+                                .addComponent(unionButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(intersectionButton, javax.swing.GroupLayout.DEFAULT_SIZE, 153, Short.MAX_VALUE)
                                 .addComponent(minimizeAutomaton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addComponent(jButton4)))
                     .addGroup(layout.createSequentialGroup()
@@ -238,7 +244,7 @@ public class View extends javax.swing.JFrame {
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {addGramarButton, addRegexButton});
 
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {determinizeAutomaton, jButton4, jButton5, jButton6});
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {determinizeAutomaton, intersectionButton, jButton4, unionButton});
 
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -256,9 +262,9 @@ public class View extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(24, 24, 24)
-                                .addComponent(jButton5)
+                                .addComponent(unionButton)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jButton6)
+                                .addComponent(intersectionButton)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jLabel4))
                             .addGroup(layout.createSequentialGroup()
@@ -316,13 +322,20 @@ public class View extends javax.swing.JFrame {
         app.convertToAutomaton(getSelected());
     }//GEN-LAST:event_jButton4ActionPerformed
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-//        grammarNregexList.getSelectedValuesList();
-    }//GEN-LAST:event_jButton5ActionPerformed
+    private void unionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_unionButtonActionPerformed
+        if (grammarNregexList.getSelectedValuesList().size() == 2) {
+            app.union(getId(grammarNregexList.getSelectedValuesList().get(0)),
+                    getId(grammarNregexList.getSelectedValuesList().get(1)));
+        }
+        
+    }//GEN-LAST:event_unionButtonActionPerformed
 
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton6ActionPerformed
+    private void intersectionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_intersectionButtonActionPerformed
+       if (grammarNregexList.getSelectedValuesList().size() == 2) {
+            app.intersection(getId(grammarNregexList.getSelectedValuesList().get(0)),
+                    getId(grammarNregexList.getSelectedValuesList().get(1)));
+        }
+    }//GEN-LAST:event_intersectionButtonActionPerformed
 
     private void RegularListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_RegularListMouseClicked
 
@@ -409,9 +422,8 @@ public class View extends javax.swing.JFrame {
     private javax.swing.JButton determinizeAutomaton;
     private javax.swing.JButton editItem;
     private javax.swing.JList<String> grammarNregexList;
+    private javax.swing.JButton intersectionButton;
     private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -426,5 +438,6 @@ public class View extends javax.swing.JFrame {
     private javax.swing.JButton loadButton;
     private javax.swing.JButton minimizeAutomaton;
     private javax.swing.JButton removeButton;
+    private javax.swing.JButton unionButton;
     // End of variables declaration//GEN-END:variables
 }

@@ -1,0 +1,1 @@
+{"states":[{"name":"q0","marked":false}],"alphabet":["c","d"],"transitions":{"transitions":{"q0":{"c":[{"name":"q0","marked":false}],"d":[{"name":"q0","marked":false}]}}},"initialState":{"name":"q0","marked":false},"finalStates":[{"name":"q0","marked":false}],"id":"bbbb","isAFD":false,"isMim":false,"isEmpty":false,"type":"AUTOMATON"}
