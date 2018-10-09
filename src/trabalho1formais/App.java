@@ -46,6 +46,18 @@ public class App {
 
     }
 
+    private void convertAFDToGrammar(Automaton afd) {
+        Grammar gr;
+        if (!regularMap.containsKey(afd.getId() + "#GR")) {
+            gr = Automaton.convertToGrammar(afd);
+            regularMap.put(gr.getId(), gr);
+            view.updateRegularList(gr.getId() + " - " + gr.getType());
+        } else {
+            gr = getGrammar(afd.getId() + "#GR");
+        }
+
+    }
+
     private void convertRegexToAT(Regex regex) {
 //        TODO
     	Automaton at;
@@ -149,6 +161,14 @@ public class App {
         } else if (reg.getType().equals("ER")) {
             convertRegexToAT((Regex) reg);
         }
+    }
+
+    public void convertToGrammar(String id) {
+        Regular reg = regularMap.get(id);
+
+        if (reg.getType().equals("AFD")) {
+            convertAFDToGrammar((Automaton) reg);
+        } 
     }
 
     public Grammar getGrammar(String id) {

@@ -8,9 +8,11 @@ package trabalho1formais.model.automaton;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map.Entry;
 import java.util.Set;
 import javax.swing.table.DefaultTableModel;
 import model.Regular;
+import trabalho1formais.model.grammar.Grammar;
 
 /**
  *
@@ -736,4 +738,61 @@ public class Automaton extends Regular {
 		return comp;
 	}
 
+    public static Grammar convertToGrammar(Automaton afd) {
+        String grammar = "";
+        HashMap<String, String> rename = new HashMap<String, String>();
+        for (State s : afd.getStates()) {
+            String temp = "";
+            String sName = s.getName().toUpperCase();
+            if (!rename.containsKey(sName)) {
+                rename.put(sName, clearName(sName, rename));
+            }
+            temp += rename.get(sName) + "->";
+
+            HashMap<Character, ArrayList<State>> transition = afd.getTransitions().getTransition(s);
+            for (Entry<Character, ArrayList<State>> entry : transition.entrySet()) {
+                Character alpha = entry.getKey();
+                ArrayList<State> states = entry.getValue();
+                if (states.isEmpty()) {
+                    continue;
+                }
+                State state = states.get(0);
+                String stName = state.getName().toUpperCase();
+                if (!rename.containsKey(stName)) {
+                    rename.put(stName, clearName(stName, rename));
+                }
+                temp += alpha + rename.get(stName) + "|";
+
+                for (State sta : afd.getFinalStates()) {
+                    if (sta.getName().toUpperCase().equals(state.getName().toUpperCase())) {
+                        temp += alpha + "|";
+                    }
+                }
+
+            }
+            temp = temp.substring(0, temp.length() - 1) + " ";
+            int a = 1;
+
+            if (!s.equals(afd.getInitialState())) {
+                grammar += temp;
+            } else {
+                grammar = temp + grammar;
+            }
+        }
+        Grammar newgrammar = Grammar.parseGrammarInput(afd.getId()+"#GR", grammar);
+        return newgrammar;
+    }
+
+    private static String clearName(String sName, HashMap<String, String> rename) {
+        sName = sName.replace("[", "").replace("]", "");
+        if (!rename.containsValue("" + sName.toCharArray()[0])) {
+            return "" + sName.toCharArray()[0];
+        }
+        int k = 0;
+        while (rename.containsValue(("" + sName.toCharArray()[0]) + k)) {
+            k++;
+        }
+
+        return ("" + sName.toCharArray()[0]) + k;
+    }
 }

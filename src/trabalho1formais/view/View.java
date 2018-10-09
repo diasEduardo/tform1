@@ -74,6 +74,7 @@ public class View extends javax.swing.JFrame {
         addAutomatonButton = new javax.swing.JButton();
         minimizeAutomaton = new javax.swing.JButton();
         loadButton = new javax.swing.JButton();
+        afdToGr = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Trabalho 1");
@@ -182,6 +183,13 @@ public class View extends javax.swing.JFrame {
             }
         });
 
+        afdToGr.setText("Converter AFD Para GR");
+        afdToGr.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                afdToGrActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -208,20 +216,18 @@ public class View extends javax.swing.JFrame {
                     .addComponent(loadButton, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(33, 33, 33)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(determinizeAutomaton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jSeparator3)
+                    .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, 153, Short.MAX_VALUE)
+                    .addComponent(minimizeAutomaton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(determinizeAutomaton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jSeparator3)
-                                .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, 153, Short.MAX_VALUE)
-                                .addComponent(minimizeAutomaton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addComponent(jButton4)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(38, 38, 38)
-                        .addComponent(jLabel4)))
+                        .addGap(20, 20, 20)
+                        .addComponent(jLabel4))
+                    .addComponent(afdToGr, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -247,9 +253,11 @@ public class View extends javax.swing.JFrame {
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(37, 37, 37)
+                                .addGap(32, 32, 32)
                                 .addComponent(jButton4)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(afdToGr)
+                                .addGap(9, 9, 9)
                                 .addComponent(determinizeAutomaton)
                                 .addGap(11, 11, 11)
                                 .addComponent(minimizeAutomaton)
@@ -380,6 +388,10 @@ public class View extends javax.swing.JFrame {
 
     }//GEN-LAST:event_loadButtonActionPerformed
 
+    private void afdToGrActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_afdToGrActionPerformed
+       app.convertToGrammar(getSelected());
+    }//GEN-LAST:event_afdToGrActionPerformed
+    
     public void updateTable(ViewTable vt) {
         jTable1.setModel(new javax.swing.table.DefaultTableModel(vt.getData(), vt.getColumn()));
     }
@@ -406,6 +418,7 @@ public class View extends javax.swing.JFrame {
     private javax.swing.JButton addAutomatonButton;
     private javax.swing.JButton addGramarButton;
     private javax.swing.JButton addRegexButton;
+    private javax.swing.JButton afdToGr;
     private javax.swing.JButton determinizeAutomaton;
     private javax.swing.JButton editItem;
     private javax.swing.JList<String> grammarNregexList;
